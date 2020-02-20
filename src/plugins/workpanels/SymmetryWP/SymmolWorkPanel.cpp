@@ -258,11 +258,18 @@ void CSymmolWorkPanel::RunSymmol(void)
             found = true;
             break;
         }
+        if( line.find("SYMMETRIZATION OF GROUP NR. 1") != string::npos ){
+            found = true;
+        }
     }
 
     if( found == false ){
         GetProject()->TextNotification(ETNT_ERROR,"unable to parse stdout from symmol",5000);
         return;
+    }
+
+    if( WidgetUI.symbolLE->text() == "C1" ){
+        GetProject()->TextNotification(ETNT_ERROR,"no symmetry detected",5000);
     }
 
     SymmolOutput = workdir.absoluteFilePath("symmol.out");
