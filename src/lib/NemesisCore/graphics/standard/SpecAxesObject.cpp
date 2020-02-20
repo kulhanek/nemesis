@@ -31,7 +31,7 @@
 #include <ElementColorsList.hpp>
 #include <Atom.hpp>
 #include <StructureList.hpp>
-#include <Lapack.hpp>
+#include <SciLapack.hpp>
 #include <SpecAxesObjectHistory.hpp>
 #include <CombPhysicalQuantity.hpp>
 #include <PhysicalQuantities.hpp>
@@ -326,7 +326,7 @@ void CSpecAxesObject::UpdateData(void)
 //    cout << Tensor[1][0] << " " << Tensor[1][1] << " " << Tensor[1][2] << endl;
 //    cout << Tensor[2][0] << " " << Tensor[2][1] << " " << Tensor[2][2] << endl;
 
-    CLapack::syev('V','U',Tensor,EigenValues);
+    CSciLapack::syev('V','U',Tensor,EigenValues);
 
 //    cout << Tensor[0][0] << " " << Tensor[0][1] << " " << Tensor[0][2] << endl;
 //    cout << Tensor[1][0] << " " << Tensor[1][1] << " " << Tensor[1][2] << endl;

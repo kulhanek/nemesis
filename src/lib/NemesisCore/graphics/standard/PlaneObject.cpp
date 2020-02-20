@@ -32,7 +32,7 @@
 #include <HistoryNode.hpp>
 #include <SimpleVector.hpp>
 #include <FortranMatrix.hpp>
-#include <Lapack.hpp>
+#include <SciLapack.hpp>
 
 #include <GLSelection.hpp>
 #include <Transformation.hpp>
@@ -578,7 +578,7 @@ void CPlaneObject::FitPlane(void)
     work.SetZero();
 
     // now solve eigenproblem
-    int info = CLapack::syev('V','L', a, eigenvalues, work);
+    int info = CSciLapack::syev('V','L', a, eigenvalues, work);
 
     if( info != 0 ) {
         ES_ERROR("unable to diagonalize plane matrix");
