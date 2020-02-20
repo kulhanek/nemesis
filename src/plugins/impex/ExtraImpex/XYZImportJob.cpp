@@ -313,6 +313,13 @@ bool CXYZImportJob::InjectCoordinates(void)
         id++;
     }
 
+    // THREAD SAFETY !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // do some magic with parent and thread ownership
+    // return objects back to main thread
+    Structure->moveToThread(QCoreApplication::instance()->thread());
+    if( History ) History->moveToThread(QCoreApplication::instance()->thread());
+    // END OF THREAD SAFETY !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
     return(true);
 }
 
