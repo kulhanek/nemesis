@@ -67,13 +67,11 @@ SET_TARGET_PROPERTIES(standard_wp PROPERTIES
 TARGET_LINK_LIBRARIES(standard_wp
                 NemesisCore
                 plusula
-                ${QT_LIBRARIES}
+                Qt5::Core Qt5::Widgets Qt5::Gui
                 ${SCIMAFIC_CLIB_NAME}
                 ${HIPOLY_LIB_NAME}
                 ${SYSTEM_LIBS}
                 )
-
-QT5_USE_MODULES(standard_wp Core Widgets Gui)
 
 INSTALL(TARGETS
             standard_wp

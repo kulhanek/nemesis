@@ -37,15 +37,13 @@ SET_TARGET_PROPERTIES(symmetry_wp_shared PROPERTIES
 TARGET_LINK_LIBRARIES(symmetry_wp_shared
                 NemesisCore
                 plusula
-                ${QT_LIBRARIES}
+                Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Script Qt5::OpenGL
                 ${OPENGL_glu_LIBRARY}
                 ${OPENGL_gl_LIBRARY}
                 ${SCIMAFIC_CLIB_NAME}
                 ${HIPOLY_LIB_NAME}
                 ${SYSTEM_LIBS}
                 )
-
-QT5_USE_MODULES(symmetry_wp_shared Core Widgets Gui Script OpenGL)
 
 INSTALL(TARGETS
             symmetry_wp_shared

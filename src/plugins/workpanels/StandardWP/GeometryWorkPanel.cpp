@@ -21,6 +21,7 @@
 // =============================================================================
 
 #include <QtGui>
+#include <QButtonGroup>
 
 #include <CategoryUUID.hpp>
 #include <DesktopSystem.hpp>

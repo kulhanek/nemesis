@@ -55,14 +55,12 @@ SET_TARGET_PROPERTIES(extra_impex_shared PROPERTIES
 TARGET_LINK_LIBRARIES(extra_impex_shared
                 NemesisCore
                 plusula
-                ${QT_LIBRARIES}
+                Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Script Qt5::OpenGL
                 ${SCIMAFIC_CLIB_NAME}
                 ${HIPOLY_LIB_NAME}
                 ${SYSTEM_LIBS}
                 ${OPEN_BABEL_LIB}
                 )
-
-QT5_USE_MODULES(extra_impex_shared Core Widgets Gui Script OpenGL)
 
 INSTALL(TARGETS
             extra_impex_shared

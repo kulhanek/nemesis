@@ -44,12 +44,10 @@ TARGET_LINK_LIBRARIES(sketch_project_shared
                 ${INDIGO_LIB}
                 NemesisCore
                 plusula
-                ${QT_LIBRARIES}
+                Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Script Qt5::OpenGL Qt5::Svg Qt5::WebEngineWidgets
                 ${HIPOLY_LIB_NAME}
                 ${SYSTEM_LIBS}
                 )
-
-QT5_USE_MODULES(sketch_project_shared Core Widgets Gui Script OpenGL Svg WebEngineWidgets)
 
 INSTALL(TARGETS
             sketch_project_shared

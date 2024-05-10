@@ -47,14 +47,12 @@ SET_TARGET_PROPERTIES(open_babel_shared PROPERTIES
 TARGET_LINK_LIBRARIES(open_babel_shared
                 NemesisCore
                 plusula
-                ${QT_LIBRARIES}
+                Qt5::Core Qt5::Widgets Qt5::Gui
                 ${SCIMAFIC_CLIB_NAME}
                 ${HIPOLY_LIB_NAME}
                 ${SYSTEM_LIBS}
                 ${OPEN_BABEL_LIB}
                 )
-
-QT5_USE_MODULES(open_babel_shared Core Widgets Gui)
 
 INSTALL(TARGETS
             open_babel_shared

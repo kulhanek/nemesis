@@ -568,7 +568,7 @@ TARGET_LINK_LIBRARIES(nemesis_core_shared plusula
                 ${OPENGL_glu_LIBRARY}
                 ${OPENGL_gl_LIBRARY}
                 ${OPEN_BABEL_LIB}
-                ${QT_LIBRARIES}
+                Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Script Qt5::OpenGL Qt5::Svg
                 ${SCIMAFIC_CLIB_NAME}
                 ${HIPOLY_LIB_NAME}
                 ${SYSTEM_LIBS}
@@ -578,8 +578,6 @@ SET_TARGET_PROPERTIES(nemesis_core_shared PROPERTIES
                         OUTPUT_NAME NemesisCore
                         CLEAN_DIRECT_OUTPUT 1
                         VERSION ${NEMESIS_VERSION})
-
-QT5_USE_MODULES(nemesis_core_shared Core Widgets Gui Script OpenGL Svg)
 
 INSTALL(TARGETS
             nemesis_core_shared

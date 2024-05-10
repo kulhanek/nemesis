@@ -6,7 +6,8 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.1 FATAL_ERROR)
 #SET(CMAKE_VERBOSE_MAKEFILE ON)
 
 # define project name ----------------------------------------------------------
-SET(NEMESIS_VERSION 18.x)
+PROJECT(NEMESIS)
+SET(NEMESIS_VERSION 24.x)
 
 # what languages we use --------------------------------------------------------
 ENABLE_LANGUAGE(C)

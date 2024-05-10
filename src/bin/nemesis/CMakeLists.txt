@@ -24,11 +24,10 @@ endif(WIN32)
 ADD_EXECUTABLE(_nemesis.exe ${NEMESIS_SRC})
 
 ADD_DEPENDENCIES(_nemesis.exe nemesis_core_shared)
-QT5_USE_MODULES(_nemesis.exe Core Widgets Script)
 
 TARGET_LINK_LIBRARIES(_nemesis.exe
                 NemesisCore
-                ${QT_LIBRARIES}
+                Qt5::Core Qt5::Widgets Qt5::Script
                 ${PLUSULA_LIB_NAME}
                 ${HIPOLY_LIB_NAME}
                 ${SYSTEM_LIBS}

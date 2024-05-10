@@ -37,14 +37,12 @@ SET_TARGET_PROPERTIES(cpmd_shared PROPERTIES
 TARGET_LINK_LIBRARIES(cpmd_shared
                 NemesisCore
                 plusula
-                ${QT_LIBRARIES}
+                Qt5::Core Qt5::Widgets Qt5::Gui
                 ${SCIMAFIC_CLIB_NAME}
                 ${HIPOLY_LIB_NAME}
                 ${SYSTEM_LIBS}
                 ${EXTRA_IMPEX_LIB}
                 )
-
-QT5_USE_MODULES(cpmd_shared Core Widgets Gui)
 
 INSTALL(TARGETS
             cpmd_shared

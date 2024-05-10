@@ -41,12 +41,10 @@ SET_TARGET_PROPERTIES(trajectory_project_shared PROPERTIES
 TARGET_LINK_LIBRARIES(trajectory_project_shared
                 NemesisCore
                 plusula
-                ${QT_LIBRARIES}
+                Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Script Qt5::OpenGL
                 ${HIPOLY_LIB_NAME}
                 ${SYSTEM_LIBS}
                 )
-
-QT5_USE_MODULES(trajectory_project_shared Core Widgets Gui Script OpenGL)
 
 INSTALL(TARGETS
             trajectory_project_shared

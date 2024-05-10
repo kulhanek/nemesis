@@ -49,15 +49,13 @@ TARGET_LINK_LIBRARIES(gaussian_shared
                 NemesisCore
                 plusula
                 ${QCP_LIB}
-                ${QT_LIBRARIES}
+                Qt5::Core Qt5::Widgets Qt5::Gui Qt5::OpenGL
                 ${SCIMAFIC_CLIB_NAME}
                 ${HIPOLY_LIB_NAME}
                 ${SYSTEM_LIBS}
                 ${EXTRA_IMPEX_LIB}
                 ${OPEN_BABEL_LIB}
                 )
-
-QT5_USE_MODULES(gaussian_shared Core Widgets Gui OpenGL)
 
 INSTALL(TARGETS
             gaussian_shared

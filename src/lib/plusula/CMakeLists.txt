@@ -18,10 +18,9 @@ SET(PLUSULA_SRC
 ADD_DEFINITIONS(-DPLUSULA_BUILDING_DLL)
 
 ADD_LIBRARY(plusula_shared SHARED ${PLUSULA_SRC})
-QT5_USE_MODULES(plusula_shared Core Gui)
 
 TARGET_LINK_LIBRARIES(plusula_shared
-                ${QT_LIBRARIES}
+                Qt5::Core Qt5::Gui
                 ${SCIMAFIC_CLIB_NAME}
                 ${HIPOLY_LIB_NAME}
                 ${SYSTEM_LIBS}

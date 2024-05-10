@@ -59,15 +59,13 @@ TARGET_LINK_LIBRARIES(amber_plugin_shared
                 ${NLEAP_LIB}
                 NemesisCore
                 plusula
-                ${QT_LIBRARIES}
+                Qt5::Core Qt5::Widgets Qt5::Gui Qt5::OpenGL
                 ${PLUSULA_LIB_NAME}
                 ${ASL_LIB_NAME}
                 ${SCIMAFIC_CLIB_NAME}
                 ${HIPOLY_LIB_NAME}
                 ${SYSTEM_LIBS}
                 )
-
-QT5_USE_MODULES(amber_plugin_shared Core Widgets Gui OpenGL)
 
 INSTALL(TARGETS
             amber_plugin_shared

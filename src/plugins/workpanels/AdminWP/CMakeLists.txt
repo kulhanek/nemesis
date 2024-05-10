@@ -54,13 +54,11 @@ SET_TARGET_PROPERTIES(admin_wp_shared PROPERTIES
 TARGET_LINK_LIBRARIES(admin_wp_shared
                 NemesisCore
                 plusula
-                ${QT_LIBRARIES}
+                Qt5::Core Qt5::Widgets Qt5::Gui Qt5::Script
                 ${SCIMAFIC_CLIB_NAME}
                 ${HIPOLY_LIB_NAME}
                 ${SYSTEM_LIBS}
                 )
-
-QT5_USE_MODULES(admin_wp_shared Core Widgets Gui Script)
 
 INSTALL(TARGETS
             admin_wp_shared
