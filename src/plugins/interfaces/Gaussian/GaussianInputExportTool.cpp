@@ -59,6 +59,8 @@
 #include <GlobalSetup.hpp>
 #include <OpenBabelUtils.hpp>
 #include <openbabel/obiter.h>
+#include <openbabel/mol.h>
+#include <openbabel/internalcoord.h>
 #include <list>
 #include <iomanip>
 #include <Property.hpp>

@@ -75,7 +75,7 @@ void CAtomListTransHI::Forward(void)
     CStructure* p_mol = dynamic_cast<CStructure*>(GetProject()->FindObject(MoleculeIndex));
     if(p_mol == NULL) return;
 
-    for(int i=0; i < Indexes.GetLength(); i++) {
+    for(size_t i=0; i < Indexes.GetLength(); i++) {
         if( Indexes[i] < 0 ) continue;
         CAtom* p_atom = static_cast<CAtom*>(p_mol->GetProject()->FindObject(Indexes[i]));
         if( p_atom == NULL ) continue;
@@ -90,7 +90,7 @@ void CAtomListTransHI::Backward(void)
     CStructure* p_mol = dynamic_cast<CStructure*>(GetProject()->FindObject(MoleculeIndex));
     if(p_mol == NULL) return;
 
-    for(int i=0; i < Indexes.GetLength(); i++) {
+    for(size_t i=0; i < Indexes.GetLength(); i++) {
         if( Indexes[i] < 0 ) continue;
         CAtom* p_atom = static_cast<CAtom*>(p_mol->GetProject()->FindObject(Indexes[i]));
         if( p_atom == NULL ) continue;
@@ -221,7 +221,7 @@ void CAtomListCoordinatesHI::Forward(void)
     CStructure* p_mol = dynamic_cast<CStructure*>(GetProject()->FindObject(MoleculeIndex));
     if(p_mol == NULL) return;
 
-    for(int i=0; i < Coordinates.GetLength(); i++) {
+    for(size_t i=0; i < Coordinates.GetLength(); i++) {
         CAtom* p_atom = static_cast<CAtom*>(p_mol->GetProject()->FindObject(Indexes[i]));
         if( p_atom == NULL ) continue;
         CPoint pos = p_atom->GetPos();
@@ -296,7 +296,7 @@ CAtomListChangeParentHI::CAtomListChangeParentHI(CStructure* p_master,
     MasterIndex = p_master->GetIndex();
     SourceIndex = p_source->GetIndex();
     Atoms.CreateVector(indexes.count());
-    for(int i=0; i < Atoms.GetLength(); i++) {
+    for(size_t i=0; i < Atoms.GetLength(); i++) {
         Atoms[i] = indexes.at(i);
     }
     TopMasterSerIndex = topmindex;
@@ -314,7 +314,7 @@ void CAtomListChangeParentHI::Forward(void)
 
     p_master->BeginUpdate();
     p_source->BeginUpdate();
-    for(int i=0; i < Atoms.GetLength(); i++) {
+    for(size_t i=0; i < Atoms.GetLength(); i++) {
         CAtom* p_atom = dynamic_cast<CAtom*>(GetProject()->FindObject(Atoms[i]));
         if( p_atom == NULL ) return;
         p_atom->ChangeParent(p_master->GetAtoms());
@@ -338,7 +338,7 @@ void CAtomListChangeParentHI::Backward(void)
 
     p_master->BeginUpdate();
     p_source->BeginUpdate();
-    for(int i=0; i < Atoms.GetLength(); i++) {
+    for(size_t i=0; i < Atoms.GetLength(); i++) {
         CAtom* p_atom = dynamic_cast<CAtom*>(GetProject()->FindObject(Atoms[i]));
         if( p_atom == NULL ) return;
         p_atom->ChangeParent(p_source->GetAtoms());

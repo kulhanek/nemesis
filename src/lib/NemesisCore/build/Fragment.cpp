@@ -91,7 +91,8 @@ void CFragment::SetFirstConnector(void)
 
 void CFragment::SetNextConnector(void)
 {
-    for(int i=0; i < Connectors.GetLength()-1; i++) {
+    // FIXME
+    for(size_t i=0; i < Connectors.GetLength()-1; i++) {
         if( ActiveConnector == Connectors[i] ) {
             ActiveConnector = Connectors[i+1];
             return;
@@ -116,7 +117,7 @@ bool CFragment::SetBestConnector(EBondOrder order)
     int j = GetConnectBond(ActiveConnector);
     if( (j!=-1) && (Bonds[j].Order == order) ) return(true);
 
-    for(int i=0; i<Connectors.GetLength(); i++) {
+    for(size_t i=0; i<Connectors.GetLength(); i++) {
         if( (Atoms[GetAtomDataFromIndex(Connectors[i])].Z == 0) ||
                 (Atoms[GetAtomDataFromIndex(Connectors[i])].Z == 1) ) {
             j = GetConnectBond(Connectors[i]);
@@ -148,7 +149,7 @@ int CFragment::GetNumOfUserConnectors(void)
 
 int CFragment::GetConnectorIndex(void)
 {
-    for(int i=0; i<Connectors.GetLength(); i++) {
+    for(size_t i=0; i<Connectors.GetLength(); i++) {
         if( Connectors[i] == ActiveConnector ) return(i);
     }
     return(-1);
@@ -248,7 +249,7 @@ int CFragment::GetMasterAtomZ(void) const
 
 int CFragment::GetOppositeAtom(int atom_id,int bond_index)
 {
-    for(int i=0; i<Bonds.GetLength(); i++) {
+    for(size_t i=0; i<Bonds.GetLength(); i++) {
         if( Bonds[i].A1 == atom_id ) {
             bond_index--;
             if( bond_index == 0 ) return(GetAtomDataFromIndex(Bonds[i].A2));
@@ -265,7 +266,7 @@ int CFragment::GetOppositeAtom(int atom_id,int bond_index)
 
 int CFragment::GetConnectBond(int atom_id)
 {
-    for(int i=0; i<Bonds.GetLength(); i++) {
+    for(size_t i=0; i<Bonds.GetLength(); i++) {
         if( (Bonds[i].A1 == atom_id) || (Bonds[i].A2 == atom_id) )return(i);
     }
     return(-1);
@@ -275,7 +276,7 @@ int CFragment::GetConnectBond(int atom_id)
 
 int CFragment::GetAtomDataFromIndex(int atom_id)
 {
-    for(int i = 0; i < Atoms.GetLength(); i++) {
+    for(size_t i = 0; i < Atoms.GetLength(); i++) {
         if(Atoms[i].Index == atom_id )return(i);
     }
     return(-1);
@@ -467,21 +468,21 @@ void CFragment::Save(CXMLElement* p_ele)
     // write atoms
     p_gele = p_ele->CreateChildElement("atoms");
 
-    for(int i=0; i < Atoms.GetLength(); i++) {
+    for(size_t i=0; i < Atoms.GetLength(); i++) {
         p_sele = p_gele->CreateChildElement("atom");
         Atoms[i].Save(p_sele);
     }
 
     // write bonds
     p_gele = p_ele->CreateChildElement("bonds");
-    for(int i=0; i<Bonds.GetLength(); i++) {
+    for(size_t i=0; i<Bonds.GetLength(); i++) {
         p_sele = p_gele->CreateChildElement("bond");
         Bonds[i].Save(p_sele);
     }
 
     // write connectors
     p_gele = p_ele->CreateChildElement("connectors");
-    for(int i=0; i<Connectors.GetLength(); i++) {
+    for(size_t i=0; i<Connectors.GetLength(); i++) {
         p_sele = p_gele->CreateChildElement("connector");
         p_sele->SetAttribute("id",Connectors[i]);
     }

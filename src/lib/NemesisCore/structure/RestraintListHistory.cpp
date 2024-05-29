@@ -111,7 +111,7 @@ CRestraintListChangeParentHI::CRestraintListChangeParentHI(CStructure* p_master,
     MasterIndex = p_master->GetIndex();
     SourceIndex = p_source->GetIndex();
     Restraints.CreateVector(indexes.count());
-    for(int i=0; i < Restraints.GetLength(); i++) {
+    for(size_t i=0; i < Restraints.GetLength(); i++) {
         Restraints[i] = indexes.at(i);
     }
 }
@@ -127,7 +127,7 @@ void CRestraintListChangeParentHI::Forward(void)
 
     p_master->BeginUpdate();
     p_source->BeginUpdate();
-    for(int i=0; i < Restraints.GetLength(); i++) {
+    for(size_t i=0; i < Restraints.GetLength(); i++) {
         CRestraint* p_bond = dynamic_cast<CRestraint*>(GetProject()->FindObject(Restraints[i]));
         if( p_bond == NULL ) return;
         p_bond->ChangeParent(p_master->GetRestraints());
@@ -147,7 +147,7 @@ void CRestraintListChangeParentHI::Backward(void)
 
     p_master->BeginUpdate();
     p_source->BeginUpdate();
-    for(int i=0; i < Restraints.GetLength(); i++) {
+    for(size_t i=0; i < Restraints.GetLength(); i++) {
         CRestraint* p_bond = dynamic_cast<CRestraint*>(GetProject()->FindObject(Restraints[i]));
         if( p_bond == NULL ) return;
         p_bond->ChangeParent(p_source->GetRestraints());

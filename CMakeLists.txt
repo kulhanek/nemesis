@@ -74,7 +74,7 @@ LINK_DIRECTORIES(${ASL_ROOT}/lib)
 SET(ASL_LIB_NAME asl)
 
 # OpenBabel --------------------------------------
-SET(OPEN_BABEL_ROOT ${DEVELOPMENT_ROOT}/thirdparty/obcore/2.4.0)
+SET(OPEN_BABEL_ROOT ${DEVELOPMENT_ROOT}/thirdparty/obcore/3.1.1)
 INCLUDE_DIRECTORIES(${OPEN_BABEL_ROOT}/include)
 LINK_DIRECTORIES(${OPEN_BABEL_ROOT}/lib)
 SET(OPEN_BABEL_LIB obcore)

@@ -46,7 +46,7 @@ CBondListChangeParentHI::CBondListChangeParentHI(CStructure* p_master,
     MasterIndex = p_master->GetIndex();
     SourceIndex = p_source->GetIndex();
     Bonds.CreateVector(indexes.count());
-    for(int i=0; i < Bonds.GetLength(); i++) {
+    for(size_t i=0; i < Bonds.GetLength(); i++) {
         Bonds[i] = indexes.at(i);
     }
 }
@@ -62,7 +62,7 @@ void CBondListChangeParentHI::Forward(void)
 
     p_master->BeginUpdate();
     p_source->BeginUpdate();
-    for(int i=0; i < Bonds.GetLength(); i++) {
+    for(size_t i=0; i < Bonds.GetLength(); i++) {
         CBond* p_bond = dynamic_cast<CBond*>(GetProject()->FindObject(Bonds[i]));
         if( p_bond == NULL ) return;
         p_bond->ChangeParent(p_master->GetBonds());
@@ -82,7 +82,7 @@ void CBondListChangeParentHI::Backward(void)
 
     p_master->BeginUpdate();
     p_source->BeginUpdate();
-    for(int i=0; i < Bonds.GetLength(); i++) {
+    for(size_t i=0; i < Bonds.GetLength(); i++) {
         CBond* p_bond = dynamic_cast<CBond*>(GetProject()->FindObject(Bonds[i]));
         if( p_bond == NULL ) return;
         p_bond->ChangeParent(p_source->GetBonds());

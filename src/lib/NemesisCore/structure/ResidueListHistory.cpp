@@ -44,7 +44,7 @@ CResidueListChangeParentHI::CResidueListChangeParentHI(CStructure* p_master,
     MasterIndex = p_master->GetIndex();
     SourceIndex = p_source->GetIndex();
     Residues.CreateVector(indexes.count());
-    for(int i=0; i < Residues.GetLength(); i++) {
+    for(size_t i=0; i < Residues.GetLength(); i++) {
         Residues[i] = indexes.at(i);
     }
     TopMasterSerIndex = topmindex;
@@ -62,7 +62,7 @@ void CResidueListChangeParentHI::Forward(void)
 
     p_master->BeginUpdate();
     p_source->BeginUpdate();
-    for(int i=0; i < Residues.GetLength(); i++) {
+    for(size_t i=0; i < Residues.GetLength(); i++) {
         CResidue* p_res = dynamic_cast<CResidue*>(GetProject()->FindObject(Residues[i]));
         if( p_res == NULL ) return;
         p_res->ChangeParent(p_master->GetResidues());
@@ -86,7 +86,7 @@ void CResidueListChangeParentHI::Backward(void)
 
     p_master->BeginUpdate();
     p_source->BeginUpdate();
-    for(int i=0; i < Residues.GetLength(); i++) {
+    for(size_t i=0; i < Residues.GetLength(); i++) {
         CResidue* p_res = dynamic_cast<CResidue*>(GetProject()->FindObject(Residues[i]));
         if( p_res == NULL ) return;
         p_res->ChangeParent(p_source->GetResidues());

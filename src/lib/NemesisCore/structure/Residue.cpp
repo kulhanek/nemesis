@@ -34,6 +34,7 @@
 #include <QMap>
 #include <PeriodicTable.hpp>
 #include <HistoryNode.hpp>
+#include <queue>
 
 // remove AddAtom macro defined on Windows
 #if defined AddAtom

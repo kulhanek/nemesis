@@ -30,7 +30,7 @@ case $MODE in
         rm -rf `find . -name '*.so'`
         rm -rf `find . -name '*.so.*'`
         rm -rf `find . -name '*.mod'`
-        rm -rf bin/*
+        rm -rf bin/_*.exe
     ;;
 esac
 

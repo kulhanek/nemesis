@@ -1,6 +1,23 @@
+# qt
+/usr/include/x86_64-linux-gnu/qt5/QtCore
 
+# hipoly
+../../hipoly/1.0/src/lib/hipoly
+../../hipoly/1.0/src/lib/hipoly/compress
+../../hipoly/1.0/src/lib/hipoly/color
+../../hipoly/1.0/src/lib/hipoly/error
+../../hipoly/1.0/src/lib/hipoly/event
+../../hipoly/1.0/src/lib/hipoly/file
+../../hipoly/1.0/src/lib/hipoly/list
+../../hipoly/1.0/src/lib/hipoly/option
+../../hipoly/1.0/src/lib/hipoly/string
+../../hipoly/1.0/src/lib/hipoly/thread
+../../hipoly/1.0/src/lib/hipoly/time
+../../hipoly/1.0/src/lib/hipoly/xml
+../../hipoly/1.0/src/lib/hipoly/stream
+
+# Nemesis plugins
 src/lib/plusula
-
 # NemesisCore is common for all part of Nemesis
 src/lib/NemesisCore
 src/lib/NemesisCore/common

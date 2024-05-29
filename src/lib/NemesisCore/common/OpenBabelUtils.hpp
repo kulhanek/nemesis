@@ -24,6 +24,8 @@
 
 #include <NemesisCoreMainHeader.hpp>
 #include <openbabel/mol.h>
+#include <openbabel/atom.h>
+#include <openbabel/bond.h>
 #include <QByteArray>
 #include <Bond.hpp>
 

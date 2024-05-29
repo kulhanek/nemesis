@@ -36,6 +36,9 @@
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
 #include <openbabel/builder.h>
+#include <openbabel/atom.h>
+#include <openbabel/bond.h>
+
 
 using namespace OpenBabel;
 using namespace std;
