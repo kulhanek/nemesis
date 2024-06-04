@@ -166,7 +166,7 @@ QIcon CFragment::GetConnectorIcon(void)
 
 QIcon CFragment::GetConnectorIconByIndex(int index)
 {
-    if( (index < 0) || (index > Connectors.GetLength()) ) return(QIcon());
+    if( (index < 0) || (index > (int)Connectors.GetLength()) ) return(QIcon());
     if( GetConnectorMode() == ECM_AUTO ) {
         return(ConnectorIcons[0]);  // use always first icon
     }
@@ -184,7 +184,7 @@ int CFragment::GetCurrentConnector(void)
 
 int CFragment::GetConnector(int index)
 {
-    if( (index < 0) || (index >= Connectors.GetLength()) ) return(-1);
+    if( (index < 0) || (index >= (int)Connectors.GetLength()) ) return(-1);
     return(Connectors[index]);
 }
 
@@ -209,7 +209,7 @@ int CFragment::GetNumOfAtoms(void) const
 const CAtomData&  CFragment::GetAtomData(int index) const
 {
     static CAtomData zero;
-    if( (index < 0) || (index >= Atoms.GetLength()) ) return(zero);
+    if( (index < 0) || (index >= (int)Atoms.GetLength()) ) return(zero);
     return(Atoms[index]);
 }
 
@@ -225,7 +225,7 @@ int CFragment::GetNumOfBonds(void) const
 const CBondData&  CFragment::GetBondData(int index) const
 {
     static CBondData zero;
-    if( (index < 0) || (index >= Bonds.GetLength()) ) return(zero);
+    if( (index < 0) || (index >= (int)Bonds.GetLength()) ) return(zero);
     return(Bonds[index]);
 }
 

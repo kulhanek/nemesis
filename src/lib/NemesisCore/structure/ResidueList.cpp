@@ -488,7 +488,7 @@ void CResidueList::SortResidues(void)
     }
 
     // sort residues
-    qSort(loc_copy.begin(),loc_copy.end(),LessThanBySeqIndex);
+    std::sort(loc_copy.begin(),loc_copy.end(),LessThanBySeqIndex);
 
     // add residues to the list in sorted order
     foreach(CResidue* p_res,loc_copy) {

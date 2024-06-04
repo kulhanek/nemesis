@@ -293,7 +293,7 @@ bool CResidue::LocalIndexByOrderWH(void)
 
     // sort atoms by local index
     QList<CAtom*>   loc_copy = Atoms;
-    qSort(loc_copy.begin(),loc_copy.end(),LessThanByLocalIndex);
+    std::sort(loc_copy.begin(),loc_copy.end(),LessThanByLocalIndex);
 
     int index = 1;
     foreach(CAtom* p_atom, loc_copy) {
@@ -378,7 +378,7 @@ bool CResidue::ReverseLocalIndexWH(void)
 
     // sort atoms by local index
     QList<CAtom*>   loc_copy = Atoms;
-    qSort(loc_copy.begin(),loc_copy.end(),LessThanByLocalIndex);
+    std::sort(loc_copy.begin(),loc_copy.end(),LessThanByLocalIndex);
 
     QListIterator<CAtom*> it(loc_copy);
     it.toBack();
@@ -409,7 +409,7 @@ bool CResidue::AggregateHydrogensWH(void)
 
     // sort atoms by local index
     QList<CAtom*>   loc_copy = Atoms;
-    qSort(loc_copy.begin(),loc_copy.end(),LessThanByLocalIndex);
+    std::sort(loc_copy.begin(),loc_copy.end(),LessThanByLocalIndex);
 
     int index = 0;
     foreach(CAtom* p_atom, loc_copy) {
@@ -449,7 +449,7 @@ bool CResidue::AggregateTerminalsWH(void)
 
     // sort atoms by local index
     QList<CAtom*>   loc_copy = Atoms;
-    qSort(loc_copy.begin(),loc_copy.end(),LessThanByLocalIndex);
+    std::sort(loc_copy.begin(),loc_copy.end(),LessThanByLocalIndex);
 
     int index = 0;
     foreach(CAtom* p_atom, loc_copy) {
@@ -491,7 +491,7 @@ bool CResidue::NamesByHeavyAtomsWH(void)
 
     // sort atoms by local index
     QList<CAtom*>   loc_copy = Atoms;
-    qSort(loc_copy.begin(),loc_copy.end(),LessThanByLocalIndex);
+    std::sort(loc_copy.begin(),loc_copy.end(),LessThanByLocalIndex);
 
     int index = 0;
     foreach(CAtom* p_atom, loc_copy) {
@@ -664,7 +664,7 @@ QList<CBond*> CResidue::GetBonds(bool include_connectors)
         }
     }
 
-    return(bm.toList());
+    return(bm.values());
 }
 
 //------------------------------------------------------------------------------
@@ -948,7 +948,7 @@ void CResidue::SortAtoms(void)
     if( GetResidues()->IsUpdating() ) return;
 
     // sort atoms by local index
-    qSort(Atoms.begin(),Atoms.end(),LessThanByLocalIndex);
+    std::sort(Atoms.begin(),Atoms.end(),LessThanByLocalIndex);
 
     // emit event
     EmitOnAtomListChanged();

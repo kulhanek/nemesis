@@ -207,7 +207,7 @@ QVariant CTrajectoryModelFilters::data(const QModelIndex &index, int role) const
 
 Qt::ItemFlags CTrajectoryModelFilters::flags(const QModelIndex &index) const
 {
-    if( !index.isValid() ) return(0);
+    if( !index.isValid() ) return(Qt::ItemFlags());
     return(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
 }
 

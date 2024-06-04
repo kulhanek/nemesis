@@ -327,8 +327,8 @@ void CCPMDInputExportTool::SaveMapFile(void)
 
     QTextStream out(&file);
 
-    out << "# CPMDID   AtomID  AtomName  ResID  ResName" << endl;
-    out << "# ------- -------- -------- ------- -------" << endl;
+    out << "# CPMDID   AtomID  AtomName  ResID  ResName" << Qt::endl;
+    out << "# ------- -------- -------- ------- -------" << Qt::endl;
 
     std::list<int>  elements;
 
@@ -348,11 +348,11 @@ void CCPMDInputExportTool::SaveMapFile(void)
         foreach(QObject* p_qatom, Structure->GetAtoms()->children()) {
             CAtom* p_atom = static_cast<CAtom*>(p_qatom);
             if( p_atom->GetZ() != *it ) continue;
-            out << right << qSetFieldWidth(9) << i << qSetFieldWidth(1) << " ";
+            out << Qt::right << qSetFieldWidth(9) << i << qSetFieldWidth(1) << " ";
             out << qSetFieldWidth(8) << p_atom->GetSerIndex() << qSetFieldWidth(1) << " ";
-            out << qSetFieldWidth(8) << left << p_atom->GetName() << right << qSetFieldWidth(1) << " ";
+            out << qSetFieldWidth(8) << Qt::left << p_atom->GetName() << Qt::right << qSetFieldWidth(1) << " ";
             out << qSetFieldWidth(7) << p_atom->GetResidue()->GetSeqIndex() << qSetFieldWidth(1) << " ";
-            out << qSetFieldWidth(7) << left << p_atom->GetResidue()->GetName() << qSetFieldWidth(1) << endl;
+            out << qSetFieldWidth(7) << Qt::left << p_atom->GetResidue()->GetName() << qSetFieldWidth(1) << Qt::endl;
             i++;
         }
         it++;
@@ -395,104 +395,104 @@ QString CCPMDInputExportTool::GenerateInputDeck(void)
 
 void CCPMDInputExportTool::GenerateHeader(QTextStream& str)
 {
-    str << "&INFO" << endl;
-    str << "    " << WidgetUI.titleLE->text() << endl;
-    str << "&END" << endl;
-    str << endl;
+    str << "&INFO" << Qt::endl;
+    str << "    " << WidgetUI.titleLE->text() << Qt::endl;
+    str << "&END" << Qt::endl;
+    str << Qt::endl;
 }
 
 //------------------------------------------------------------------------------
 
 void CCPMDInputExportTool::GenerateCPMD(QTextStream& str)
 {
-    str << "&CPMD" << endl;
+    str << "&CPMD" << Qt::endl;
     switch( WidgetUI.calculationCB->currentIndex() ){
         case WF_OPT:
-    str << "    OPTIMIZE WAVEFUNCTION" << endl;
-    str << "    INITIALIZE WAVEFUNCTION ATOMS" << endl;
-    str << "    MAXSTEP" << endl;
-    str << "        500" << endl;
-    str << "    CONVERGENCE ORBITALS" << endl;
-    str << "        1.0E-7" << endl;
+    str << "    OPTIMIZE WAVEFUNCTION" << Qt::endl;
+    str << "    INITIALIZE WAVEFUNCTION ATOMS" << Qt::endl;
+    str << "    MAXSTEP" << Qt::endl;
+    str << "        500" << Qt::endl;
+    str << "    CONVERGENCE ORBITALS" << Qt::endl;
+    str << "        1.0E-7" << Qt::endl;
         break;
         case GEO_OPT:
-    str << "    OPTIMIZE GEOMETRY XYZ" << endl;
-    str << "    INITIALIZE WAVEFUNCTION ATOMS" << endl;
-    str << "    HESSIAN UNIT" << endl;
-    str << "    LBFGS" << endl;
-    str << "    MAXSTEP" << endl;
-    str << "        500" << endl;
-    str << "    CONVERGENCE ORBITALS" << endl;
-    str << "        1.0E-6" << endl;
-    str << "    CONVERGENCE GEOMETRY" << endl;
-    str << "        5.0E-4" << endl;
+    str << "    OPTIMIZE GEOMETRY XYZ" << Qt::endl;
+    str << "    INITIALIZE WAVEFUNCTION ATOMS" << Qt::endl;
+    str << "    HESSIAN UNIT" << Qt::endl;
+    str << "    LBFGS" << Qt::endl;
+    str << "    MAXSTEP" << Qt::endl;
+    str << "        500" << Qt::endl;
+    str << "    CONVERGENCE ORBITALS" << Qt::endl;
+    str << "        1.0E-6" << Qt::endl;
+    str << "    CONVERGENCE GEOMETRY" << Qt::endl;
+    str << "        5.0E-4" << Qt::endl;
         break;
         case CP_DYN:
-    str << "    MOLECULAR DYNAMICS CP" << endl;
-    str << "    RESTART WAVEFUNCTION COORDINATES LATEST" << endl;
-    str << "    MAXSTEP" << endl;
-    str << "        50000" << endl;
-    str << "    TIMESTEP" << endl;
-    str << "        5" << endl;
-    str << "    EMASS" << endl;
-    str << "        600" << endl;
-    str << "    TRAJECTORY XYZ" << endl;
-    str << "    TRAJECTORY SAMPLE" << endl;
-    str << "        10" << endl;
+    str << "    MOLECULAR DYNAMICS CP" << Qt::endl;
+    str << "    RESTART WAVEFUNCTION COORDINATES LATEST" << Qt::endl;
+    str << "    MAXSTEP" << Qt::endl;
+    str << "        50000" << Qt::endl;
+    str << "    TIMESTEP" << Qt::endl;
+    str << "        5" << Qt::endl;
+    str << "    EMASS" << Qt::endl;
+    str << "        600" << Qt::endl;
+    str << "    TRAJECTORY XYZ" << Qt::endl;
+    str << "    TRAJECTORY SAMPLE" << Qt::endl;
+    str << "        10" << Qt::endl;
     if( WidgetUI.isolatedCB->isChecked() ){
-    str << "    ISOLATED MOLECULE" << endl;
+    str << "    ISOLATED MOLECULE" << Qt::endl;
     }
         break;
     }
 
     if( WidgetUI.isolatedCB->isChecked() ){
-    str << "    CENTER MOLECULE" << endl;
+    str << "    CENTER MOLECULE" << Qt::endl;
     }
-    str << "&END" << endl;
-    str << endl;
+    str << "&END" << Qt::endl;
+    str << Qt::endl;
 }
 
 //------------------------------------------------------------------------------
 
 void CCPMDInputExportTool::GenerateSystem(QTextStream& str)
 {
-    str << "&SYSTEM" << endl;
-    str << "    ANGSTROM" << endl;
+    str << "&SYSTEM" << Qt::endl;
+    str << "    ANGSTROM" << Qt::endl;
     if( WidgetUI.isolatedCB->isChecked() ){
-    str << "    SYMMETRY" << endl;
-    str << "        0" << endl;
-    str << "    CELL ABSOLUTE DEGREES" << endl;
-    str << qSetFieldWidth(13) << qSetRealNumberPrecision(6) << forcepoint << fixed << right;
+    str << "    SYMMETRY" << Qt::endl;
+    str << "        0" << Qt::endl;
+    str << "    CELL ABSOLUTE DEGREES" << Qt::endl;
+    str << qSetFieldWidth(13) << qSetRealNumberPrecision(6) << Qt::forcepoint << Qt::fixed << Qt::right;
     str << Structure->PBCInfo.GetAVectorSize();
     str << Structure->PBCInfo.GetBVectorSize();
     str << Structure->PBCInfo.GetCVectorSize();
     str << qSetFieldWidth(0);
-    str << " 90.0 90.0 90.0" << endl;
-    str << "    POISSON SOLVER HOCKNEY" << endl;
+    str << " 90.0 90.0 90.0" << Qt::endl;
+    str << "    POISSON SOLVER HOCKNEY" << Qt::endl;
     } else {
-    str << "    CELL VECTORS" << endl;
-    str << qSetFieldWidth(13) << qSetRealNumberPrecision(6) << forcepoint << fixed << right;
-    str << Structure->PBCInfo.GetAVector().x << Structure->PBCInfo.GetAVector().y << Structure->PBCInfo.GetAVector().z << endl;
-    str << Structure->PBCInfo.GetBVector().x << Structure->PBCInfo.GetBVector().y << Structure->PBCInfo.GetBVector().z << endl;
-    str << Structure->PBCInfo.GetCVector().x << Structure->PBCInfo.GetCVector().y << Structure->PBCInfo.GetCVector().z << endl;
+    str << "    CELL VECTORS" << Qt::endl;
+    str << qSetFieldWidth(13) << qSetRealNumberPrecision(6) << Qt::forcepoint << Qt::fixed << Qt::right;
+    str << Structure->PBCInfo.GetAVector().x << Structure->PBCInfo.GetAVector().y << Structure->PBCInfo.GetAVector().z << Qt::endl;
+    str << Structure->PBCInfo.GetBVector().x << Structure->PBCInfo.GetBVector().y << Structure->PBCInfo.GetBVector().z << Qt::endl;
+    str << Structure->PBCInfo.GetCVector().x << Structure->PBCInfo.GetCVector().y << Structure->PBCInfo.GetCVector().z << Qt::endl;
     str << qSetFieldWidth(0);
     }
-    str << "    CUTOFF" << endl;
-    str << "        " << WidgetUI.cutoffSB->value() << endl;
-    str << "    CHARGE" << endl;
-    str << "        " << WidgetUI.chargeSB->value() << endl;
-    str << "&END" << endl;
-    str << endl;
+    str << "    CUTOFF" << Qt::endl;
+    str << "        " << WidgetUI.cutoffSB->value() << Qt::endl;
+    str << "    CHARGE" << Qt::endl;
+    str << "        " << WidgetUI.chargeSB->value() << Qt::endl;
+    str << "&END" << Qt::endl;
+    str << Qt::endl;
 }
 
 //------------------------------------------------------------------------------
 
 void CCPMDInputExportTool::GenerateDFT(QTextStream& str)
 {
-    str << "&DFT" << endl;
-    str << "    FUNCTIONAL " << WidgetUI.functionalCB->currentText() << endl;
-    str << "&END" << endl;
-    str << endl;
+    str << "&DFT" << Qt::endl;
+    str << "    FUNCTIONAL " << WidgetUI.functionalCB->currentText() << Qt::endl;
+    str << "&END" << Qt::endl;
+    str << Qt::endl;
 }
 
 //------------------------------------------------------------------------------
@@ -509,7 +509,7 @@ void CCPMDInputExportTool::GenerateAtoms(QTextStream& str)
     elements.sort();
     elements.unique();
 
-    str << "&ATOMS" << endl;
+    str << "&ATOMS" << Qt::endl;
 
     // for each element
     std::list<int>::iterator it = elements.begin();
@@ -517,28 +517,28 @@ void CCPMDInputExportTool::GenerateAtoms(QTextStream& str)
     while( it != ie ){
         str << "*" << PeriodicTable.GetSymbol(*it)<< "_" << WidgetUI.pseudopotentialCB->currentText() << "_" << WidgetUI.functionalCB->currentText() << ".psp";
         if( WidgetUI.pseudopotentialCB->currentText() == "MT" ){
-        str << " KLEINMAN-BYLANDER" << endl;
+        str << " KLEINMAN-BYLANDER" << Qt::endl;
         }
-        str << "    LMAX=" << GetLMax(*it) << endl;
+        str << "    LMAX=" << GetLMax(*it) << Qt::endl;
         int count = 0;
         foreach(QObject* p_qatom, Structure->GetAtoms()->children()) {
             CAtom* p_atom = static_cast<CAtom*>(p_qatom);
             if( p_atom->GetZ() != *it ) continue;
             count++;
         }
-        str << "    " << count << endl;
+        str << "    " << count << Qt::endl;
         foreach(QObject* p_qatom, Structure->GetAtoms()->children()) {
             CAtom* p_atom = static_cast<CAtom*>(p_qatom);
             if( p_atom->GetZ() != *it ) continue;
-            str << qSetFieldWidth(13) << qSetRealNumberPrecision(6) << forcepoint
-                << fixed << right << p_atom->GetPos().x << p_atom->GetPos().y
+            str << qSetFieldWidth(13) << qSetRealNumberPrecision(6) << Qt::forcepoint
+                << Qt::fixed << Qt::right << p_atom->GetPos().x << p_atom->GetPos().y
                 << p_atom->GetPos().z << qSetFieldWidth(0) << '\n';
         }
         it++;
     }
 
-    str << "&END" << endl;
-    str << endl;
+    str << "&END" << Qt::endl;
+    str << Qt::endl;
 }
 
 //------------------------------------------------------------------------------

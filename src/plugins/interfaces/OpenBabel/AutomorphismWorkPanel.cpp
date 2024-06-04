@@ -205,7 +205,7 @@ void CAutomorphismWorkPanel::GenerateAutomorphism(void)
 
         // label
         QString label;
-        label.sprintf("%d",i);
+        label.asprintf("%d",i);
         p_item = new QStandardItem(label);
         items << p_item;
 
@@ -216,7 +216,7 @@ void CAutomorphismWorkPanel::GenerateAutomorphism(void)
         int j = 0;
         while( mit != eit ){
             if( j > 0 ) map += ",";
-            map += QString().sprintf("%d:%d",mit->first+1,mit->second+1);
+            map += QString().asprintf("%d:%d",mit->first+1,mit->second+1);
             mit++;
             j++;
         }
@@ -283,7 +283,7 @@ void CAutomorphismWorkPanel::SaveMapPatterns(void)
     for(int i=0; i < VerticesModel->rowCount(); i++){
         QStandardItem* p_item = VerticesModel->item(i,1);
         if( p_item != NULL ){
-            stream << p_item->text() << endl;
+            stream << p_item->text() << Qt::endl;
         }
 
     }

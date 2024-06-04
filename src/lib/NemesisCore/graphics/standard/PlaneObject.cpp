@@ -91,6 +91,8 @@ CPlaneObject::CPlaneObject(CGraphicsObjectList* p_gl)
     Rotation = 0;
     ClippingPlaneID = 0;
 
+    RegisterAllowedObjectType(AtomID);
+
     // update setup
     SetupChanged();
 }

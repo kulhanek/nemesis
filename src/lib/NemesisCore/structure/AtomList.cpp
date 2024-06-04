@@ -1053,7 +1053,7 @@ void CAtomList::SortAtoms(void)
     }
 
     // sort atoms
-    qSort(loc_copy.begin(),loc_copy.end(),LessThanBySerIndex);
+    std::sort(loc_copy.begin(),loc_copy.end(),LessThanBySerIndex);
 
     // add atoms to the list in sorted order
     foreach(CAtom* p_atom,loc_copy) {

@@ -75,6 +75,8 @@ CSketchProjectWindow::CSketchProjectWindow(CSketchProject* p_project)
         ES_ERROR("url is not valid");
     }
 
+    cout << url.toString().toStdString() << endl;
+
     setCentralWidget(WebView);
     WebView->load(url);
 

@@ -579,7 +579,7 @@ void CResidueListWorkPanel::MergeResidues(void)
 
     if( sel_residues.count() < 2 ) return;
 
-    qSort(sel_residues.begin(),sel_residues.end(),LessThanBySeqIndex);
+    std::sort(sel_residues.begin(),sel_residues.end(),LessThanBySeqIndex);
 
     CHistoryNode* p_history;
     p_history = p_list->BeginChangeWH(EHCL_TOPOLOGY,"merge residues");

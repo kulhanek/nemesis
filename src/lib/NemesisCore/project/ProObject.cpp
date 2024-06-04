@@ -544,7 +544,7 @@ void CProObject::LoadData(CXMLElement* p_ele)
     if( p_ele->GetAttribute("flags",nflags) == true ) {
         flags = CProObjectFlags(QFlag(nflags));
     } else {
-        flags = CProObjectFlags(0);
+        flags = CProObjectFlags(QFlag(0));
     }
     CProObjectFlags mask =  CProObjectFlags(QFlag(EPOF_SAVE_MASK));
     CProObjectFlags tech = Flags & (~mask);

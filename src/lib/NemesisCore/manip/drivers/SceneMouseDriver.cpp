@@ -382,7 +382,7 @@ void CSceneMouseDriver::EncodeMouseButtonsPress(QMouseEvent* p_event)
     bool            RightButton;
 
     LeftButton = p_event->buttons().testFlag(Qt::LeftButton);
-    MiddleButton = p_event->buttons().testFlag(Qt::MidButton);
+    MiddleButton = p_event->buttons().testFlag(Qt::MiddleButton);
     RightButton = p_event->buttons().testFlag(Qt::RightButton);
 
     if( (CMouseDriverSetup::ThreeButtonSimul == true) && (MiddleButton == false) ) {

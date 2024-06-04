@@ -306,7 +306,7 @@ bool CStructureListModel::setData(const QModelIndex & index, const QVariant & va
 
 Qt::ItemFlags CStructureListModel::flags(const QModelIndex &index) const
 {
-    if( !index.isValid() ) return(0);
+    if( !index.isValid() ) return(Qt::ItemFlags());
 
     if(index.column() == 1 )
     {

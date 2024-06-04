@@ -231,7 +231,7 @@ bool CTerminalWidget::MouseReleaseEvent(QMouseEvent* p_event)
     cursor.setPosition(PromptPos);
     QRect start_cursor_rect = EditArea->cursorRect(cursor);
 
-    if( (p_event->button() == Qt::MidButton) &&
+    if( (p_event->button() == Qt::MiddleButton) &&
         (p_event->y() > start_cursor_rect.top()) &&
         (p_event->x() > start_cursor_rect.left()) ) {
        return (false);

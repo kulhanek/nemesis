@@ -154,7 +154,7 @@ const QList<CBond*> CASLMask::GetSelectedBonds(void)
         }
     }
 
-    return(bm.toList());
+    return(bm.values());
 }
 
 //------------------------------------------------------------------------------
@@ -173,7 +173,7 @@ const QList<CResidue*> CASLMask::GetSelectedResidues(void)
         }
     }
 
-    return(rset.toList());
+    return(rset.values());
 }
 
 //==============================================================================

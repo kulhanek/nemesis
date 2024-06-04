@@ -238,7 +238,7 @@ QVariant CBondListModel::data(const QModelIndex &index, int role) const
 
 Qt::ItemFlags CBondListModel::flags(const QModelIndex &index) const
 {
-    if( !index.isValid() ) return(0);
+    if( !index.isValid() ) return(Qt::ItemFlags());
     return(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled);
 }
 

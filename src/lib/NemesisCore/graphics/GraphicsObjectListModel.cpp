@@ -249,7 +249,7 @@ QVariant CGraphicsObjectListModel::data(const QModelIndex &index, int role) cons
 
 Qt::ItemFlags CGraphicsObjectListModel::flags(const QModelIndex &index) const
 {
-    if( !index.isValid() ) return(0);
+    if( !index.isValid() ) return(Qt::ItemFlags());
     return(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled);
 }
 

@@ -175,7 +175,7 @@ void CGraphSymmetryWorkPanel::GenerateGraphSymmetry(void)
 
         // label
         QString label;
-        label.sprintf("gr%d",(int)i+1);
+        label.asprintf("gr%d",(int)i+1);
 
         // atoms, residues, types, charges
         std::set<std::string> names;
@@ -189,7 +189,7 @@ void CGraphSymmetryWorkPanel::GenerateGraphSymmetry(void)
                 CAtom* p_atom = static_cast<CAtom*>(p_str->GetAtoms()->children().at(j));
                 names.insert(p_atom->GetName().toStdString());
                 QString rid;
-                rid.sprintf("%d",p_atom->GetResidue()->GetSeqIndex());
+                rid.asprintf("%d",p_atom->GetResidue()->GetSeqIndex());
                 resid.insert(rid.toStdString());
                 types.insert(p_atom->GetType().toStdString());
                 chrsum  += p_atom->GetCharge();
@@ -346,7 +346,7 @@ void CGraphSymmetryWorkPanel::ImprintGroups(void)
         CAtom* p_atom = static_cast<CAtom*>(p_obj);
         unsigned cl = SymmetryClasses[j];
         QString descr;
-        descr.sprintf("gr%d",cl);
+        descr.asprintf("gr%d",cl);
         p_atom->SetDescription(descr,p_history);
         j++;
     }

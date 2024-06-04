@@ -77,7 +77,7 @@ void QColorPushButton::setColor(const CColor& value)
 void QColorPushButton::editColor(void)
 {
     QColor color = Color;
-    color = QColorDialog::getRgba(color.rgb());
+    color = QColorDialog::getColor(color.rgb());
     if( color.isValid() == false ) return;
     setColor(color);
 }

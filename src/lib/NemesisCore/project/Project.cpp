@@ -254,7 +254,6 @@ void CProject::BringToFront(void)
     if( p_widget == NULL ) return;
     p_widget->activateWindow();
     p_widget->raise();
-    QCoreApplication::flush();
 }
 
 //---------------------------------------------------------------------------

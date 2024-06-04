@@ -208,7 +208,7 @@ QVariant CProObjectRegObjectsModel::data(const QModelIndex &index, int role) con
 
 Qt::ItemFlags CProObjectRegObjectsModel::flags(const QModelIndex &index) const
 {
-    if( !index.isValid() ) return(0);
+    if( !index.isValid() ) return(Qt::ItemFlags());
     return(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
 }
 

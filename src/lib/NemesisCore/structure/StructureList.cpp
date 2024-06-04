@@ -480,7 +480,7 @@ void CStructureList::MergeStructures(const QList<CStructure*>& structures,CHisto
 
     // create local copy and sort the list by sequence index
     QList<CStructure*>  lstrs(structures);
-    qSort(lstrs.begin(),lstrs.end(),LessThanBySeqIndex);
+    std::sort(lstrs.begin(),lstrs.end(),LessThanBySeqIndex);
 
     // remove the first structure, which will be the acceptor
     CStructure* p_mstr = lstrs.takeFirst();
@@ -543,7 +543,7 @@ void CStructureList::SortStructures(void)
     }
 
     // sort residues
-    qSort(loc_copy.begin(),loc_copy.end(),LessThanBySeqIndex);
+    std::sort(loc_copy.begin(),loc_copy.end(),LessThanBySeqIndex);
 
     // add residues to the list in sorted order
     foreach(CStructure* p_str,loc_copy) {

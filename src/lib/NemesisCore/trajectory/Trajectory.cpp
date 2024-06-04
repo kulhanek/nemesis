@@ -1198,7 +1198,7 @@ void CTrajectory::EmitOnSnapshotFiltersChanged(void)
 
 void CTrajectory::SortSegments(void)
 {
-    qSort(Segments.begin(),Segments.end(),LessThanBySeqIndexSegment);
+    std::sort(Segments.begin(),Segments.end(),LessThanBySeqIndexSegment);
 
     // update indexes
     if( CurrentSegmentIndex > Segments.count() ){
@@ -1226,7 +1226,7 @@ bool CTrajectory::LessThanBySeqIndexSegment(CTrajectorySegment* p_left,CTrajecto
 
 void CTrajectory::SortSegmentsByID(void)
 {
-    qSort(Segments.begin(),Segments.end(),LessThanByIdIndexSegment);
+    std::sort(Segments.begin(),Segments.end(),LessThanByIdIndexSegment);
 
     // update indexes
     if( CurrentSegmentIndex > Segments.count() ){
@@ -1254,7 +1254,7 @@ bool CTrajectory::LessThanByIdIndexSegment(CTrajectorySegment* p_left,CTrajector
 
 void CTrajectory::SortFilters(void)
 {
-    qSort(Filters.begin(),Filters.end(),LessThanBySeqIndexFilter);
+    std::sort(Filters.begin(),Filters.end(),LessThanBySeqIndexFilter);
 }
 
 //------------------------------------------------------------------------------

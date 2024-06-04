@@ -192,7 +192,7 @@ void CGDrvTrajSegment::CreateModel(void)
         items << p_item;
 
         // absolute energy
-        p_item = new QStandardItem(QString().sprintf("%.9f",energy));
+        p_item = new QStandardItem(QString().asprintf("%.9f",energy));
         p_item->setTextAlignment(Qt::AlignRight);
         items << p_item;
 

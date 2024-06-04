@@ -213,10 +213,11 @@ void CSymmolWorkPanel::RunSymmol(void)
     // execute symmol
     QProcess proc;
     proc.setWorkingDirectory(TmpDir.path());
-    proc.setReadChannelMode(QProcess::SeparateChannels);
+    proc.setProcessChannelMode(QProcess::SeparateChannels);
     proc.setStandardInputFile(stdin_name);
     proc.setStandardOutputFile(stdout_name);
-    proc.start("symmol");
+    QStringList args;
+    proc.start("symmol",args);
     bool finished = false;
     for(int i=0;i < 100; i++){
         QCoreApplication::processEvents();

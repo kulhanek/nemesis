@@ -644,13 +644,13 @@ void CGaussianInputExportTool::GenerateCoordinates(QTextStream& str)
         case 0: {
             foreach(QObject* p_qatom, Structure->GetAtoms()->children()) {
                 CAtom* p_atom = static_cast<CAtom*>(p_qatom);
-                str << qSetFieldWidth(2) << right
+                str << qSetFieldWidth(2) << Qt::right
                     << QString(PeriodicTable.GetSymbol(p_atom->GetZ()));
                 if( WidgetUI.includeFragCB->isChecked() || WidgetUI.bsseCB->isChecked() ){
                     str << "(Fragment=" << qSetFieldWidth(0) << FragIndexes[p_atom] << ")";
                 }
-                str << qSetFieldWidth(20) << qSetRealNumberPrecision(12) << forcepoint
-                    << fixed << right << p_atom->GetPos().x << p_atom->GetPos().y
+                str << qSetFieldWidth(20) << qSetRealNumberPrecision(12) << Qt::forcepoint
+                    << Qt::fixed << Qt::right << p_atom->GetPos().x << p_atom->GetPos().y
                     << p_atom->GetPos().z << qSetFieldWidth(0) << '\n';
             }
             GeneratePBCCoordinates(str);
@@ -682,7 +682,7 @@ void CGaussianInputExportTool::GenerateCoordinates(QTextStream& str)
                 b = vic[index+1]->_b;
                 c = vic[index+1]->_c;
 
-                str << qSetFieldWidth(2) << right
+                str << qSetFieldWidth(2) << Qt::right
                     << QString(PeriodicTable.GetSymbol(p_atom->GetZ()));
                 if( WidgetUI.includeFragCB->isChecked() || WidgetUI.bsseCB->isChecked() ){
                     str << "(Fragment=" << qSetFieldWidth(0) << FragIndexes[p_atom] << ")";
@@ -703,7 +703,7 @@ void CGaussianInputExportTool::GenerateCoordinates(QTextStream& str)
 
             GeneratePBCCoordinates(str);
 
-            str << "Variables:" << endl;
+            str << "Variables:" << Qt::endl;
             for(int index=0; index < Structure->GetAtoms()->GetNumberOfAtoms(); index++) {
                 r = vic[index+1]->_dst;
                 w = vic[index+1]->_ang;
@@ -716,17 +716,17 @@ void CGaussianInputExportTool::GenerateCoordinates(QTextStream& str)
                 }
                 if(index > 0) {
                     str << "B" << index << qSetFieldWidth(20)
-                        << qSetRealNumberPrecision(12) << forcepoint << fixed << right
+                        << qSetRealNumberPrecision(12) << Qt::forcepoint << Qt::fixed << Qt::right
                         << r << qSetFieldWidth(0) << '\n';
                 }
                 if(index > 1) {
                     str << "A" << index << qSetFieldWidth(20)
-                        << qSetRealNumberPrecision(12) << forcepoint << fixed << right
+                        << qSetRealNumberPrecision(12) << Qt::forcepoint << Qt::fixed << Qt::right
                         << w << qSetFieldWidth(0) << '\n';
                 }
                 if(index > 2) {
                     str << "D" << index << qSetFieldWidth(20)
-                        << qSetRealNumberPrecision(12) << forcepoint << fixed << right
+                        << qSetRealNumberPrecision(12) << Qt::forcepoint << Qt::fixed << Qt::right
                         << t << qSetFieldWidth(0) << '\n';
                 }
             }
@@ -767,17 +767,17 @@ void CGaussianInputExportTool::GenerateCoordinates(QTextStream& str)
                   t += 360.0;
                 }
 
-                str << qSetFieldWidth(3) << right << QString(PeriodicTable.GetSymbol(atom->GetAtomicNum()));
-                str << qSetFieldWidth(3) << right;
+                str << qSetFieldWidth(3) << Qt::right << QString(PeriodicTable.GetSymbol(atom->GetAtomicNum()));
+                str << qSetFieldWidth(3) << Qt::right;
                 if (atom->GetIdx() > 1)
                   str << a->GetIdx() << qSetFieldWidth(20)
-                  << qSetRealNumberPrecision(12) << forcepoint << fixed << right << r;
+                  << qSetRealNumberPrecision(12) << Qt::forcepoint << Qt::fixed << Qt::right << r;
                 if (atom->GetIdx() > 2)
-                  str << qSetFieldWidth(3) << right << b->GetIdx() << qSetFieldWidth(20)
-                  << qSetRealNumberPrecision(12) << forcepoint << fixed << right << w;
+                  str << qSetFieldWidth(3) << Qt::right << b->GetIdx() << qSetFieldWidth(20)
+                  << qSetRealNumberPrecision(12) << Qt::forcepoint << Qt::fixed << Qt::right << w;
                 if (atom->GetIdx() > 3)
-                  str << qSetFieldWidth(3) << right << c->GetIdx() << qSetFieldWidth(20)
-                  << qSetRealNumberPrecision(12) << forcepoint << fixed << right << t;
+                  str << qSetFieldWidth(3) << Qt::right << c->GetIdx() << qSetFieldWidth(20)
+                  << qSetRealNumberPrecision(12) << Qt::forcepoint << Qt::fixed << Qt::right << t;
                 str << qSetFieldWidth(0) << '\n';
             }
             GeneratePBCCoordinates(str);
@@ -819,8 +819,8 @@ void CGaussianInputExportTool::GenerateCoordinates(QTextStream& str)
                 str << p_dp->GetPointD()->GetAtom(0)->GetTrajIndex()+1 << " ";
             }
             double value = WidgetUI.stepSizeSB->getInternalValue();
-            str << "S " << WidgetUI.numOfStepsSB->value() << " " << QString::number(value*fac, 'f', 2) << endl;
-            str << endl;
+            str << "S " << WidgetUI.numOfStepsSB->value() << " " << QString::number(value*fac, 'f', 2) << Qt::endl;
+            str << Qt::endl;
         }
 
     }
@@ -838,24 +838,24 @@ void CGaussianInputExportTool::GeneratePBCCoordinates(QTextStream& str)
     if( Structure->PBCInfo.IsValid() == false ) return;
 
     if( Structure->PBCInfo.IsPeriodicAlongA() ){
-        str << qSetFieldWidth(3) << left
+        str << qSetFieldWidth(3) << Qt::left
             << QString("TV")
-            << qSetFieldWidth(20) << qSetRealNumberPrecision(12) << forcepoint
-            << fixed << right << Structure->PBCInfo.GetAVector().x << Structure->PBCInfo.GetAVector().y
+            << qSetFieldWidth(20) << qSetRealNumberPrecision(12) << Qt::forcepoint
+            << Qt::fixed << Qt::right << Structure->PBCInfo.GetAVector().x << Structure->PBCInfo.GetAVector().y
             << Structure->PBCInfo.GetAVector().z << qSetFieldWidth(0) << '\n';
     }
     if( Structure->PBCInfo.IsPeriodicAlongB() ){
-        str << qSetFieldWidth(3) << left
+        str << qSetFieldWidth(3) << Qt::left
             << QString("TV")
-            << qSetFieldWidth(20) << qSetRealNumberPrecision(12) << forcepoint
-            << fixed << right << Structure->PBCInfo.GetBVector().x << Structure->PBCInfo.GetBVector().y
+            << qSetFieldWidth(20) << qSetRealNumberPrecision(12) << Qt::forcepoint
+            << Qt::fixed << Qt::right << Structure->PBCInfo.GetBVector().x << Structure->PBCInfo.GetBVector().y
             << Structure->PBCInfo.GetBVector().z << qSetFieldWidth(0) << '\n';
     }
     if( Structure->PBCInfo.IsPeriodicAlongC() ){
-        str << qSetFieldWidth(3) << left
+        str << qSetFieldWidth(3) << Qt::left
             << QString("TV")
-            << qSetFieldWidth(20) << qSetRealNumberPrecision(12) << forcepoint
-            << fixed << right << Structure->PBCInfo.GetCVector().x << Structure->PBCInfo.GetCVector().y
+            << qSetFieldWidth(20) << qSetRealNumberPrecision(12) << Qt::forcepoint
+            << Qt::fixed << Qt::right << Structure->PBCInfo.GetCVector().x << Structure->PBCInfo.GetCVector().y
             << Structure->PBCInfo.GetCVector().z << qSetFieldWidth(0) << '\n';
     }
 }

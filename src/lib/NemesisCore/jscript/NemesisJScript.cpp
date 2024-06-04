@@ -177,7 +177,7 @@ void CNemesisJScript::Finalize(void)
     if( hasUncaughtException() == true ) {
         QScriptValue evalue = uncaughtException();
         QTextStream stream(stderr);
-        stream << "nemesis: line " << uncaughtExceptionLineNumber() << " - " << evalue.toString() << endl;
+        stream << "nemesis: line " << uncaughtExceptionLineNumber() << " - " << evalue.toString() << Qt::endl;
     }
 
     PrintFinalText();

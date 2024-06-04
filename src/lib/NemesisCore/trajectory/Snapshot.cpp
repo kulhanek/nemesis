@@ -59,7 +59,7 @@ const CPoint& CSnapshot::GetPos(int seqindex)
     if( Coordinates.GetLength() == 0 ){
         return(zero);
     }
-    if( (seqindex < 0) || (seqindex >= Coordinates.GetLength()) ){
+    if( (seqindex < 0) || (seqindex >= (int)Coordinates.GetLength()) ){
         return(zero);
     }
     return(Coordinates[seqindex]);
@@ -73,7 +73,7 @@ const CPoint& CSnapshot::GetVel(int seqindex)
     if( Velocities.GetLength() == 0 ){
         return(zero);
     }
-    if( (seqindex < 0) || (seqindex >= Velocities.GetLength()) ){
+    if( (seqindex < 0) || (seqindex >= (int)Velocities.GetLength()) ){
         return(zero);
     }
     return(Velocities[seqindex]);
@@ -95,7 +95,7 @@ void CSnapshot::SetPos(int seqindex,const CPoint& pos)
     if( Coordinates.GetLength() == 0 ){
         return;
     }
-    if( (seqindex < 0) || (seqindex >= Coordinates.GetLength()) ){
+    if( (seqindex < 0) || (seqindex >= (int)Coordinates.GetLength()) ){
         return;
     }
     Coordinates[seqindex] = pos;
@@ -108,7 +108,7 @@ void CSnapshot::SetVel(int seqindex,const CPoint& vel)
     if( Velocities.GetLength() == 0 ){
         return;
     }
-    if( (seqindex < 0) || (seqindex >= Velocities.GetLength()) ){
+    if( (seqindex < 0) || (seqindex >= (int)Velocities.GetLength()) ){
         return;
     }
     Velocities[seqindex] = vel;

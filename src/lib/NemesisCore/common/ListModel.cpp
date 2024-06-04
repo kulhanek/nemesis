@@ -158,7 +158,7 @@ QVariant CListModel::data(const QModelIndex &index, int role) const
 
 Qt::ItemFlags CListModel::flags(const QModelIndex &index) const
 {
-    if( !index.isValid() ) return(0);
+    if( !index.isValid() ) return(Qt::ItemFlags());
     return(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
 }
 

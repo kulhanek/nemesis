@@ -39,19 +39,44 @@
 
 int main(int argc, char* argv[])
 {
-     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts,true);
+    // Qt WebEngine seems to be initialized from a plugin. Please set Qt::AA_ShareOpenGLContexts using QCoreApplication::setAttribute before constructing QGuiApplication.
+    QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts,true);
 
     // run application
-    CNemesisApplication app(argc,argv);
+    CNemesisApplication* p_app = new CNemesisApplication(argc,argv);
 
     // this style override layout default margins
     QApplication::setStyle(new CNemesisStyle);
 
-    CNemesisJScript object;
-
-    TRY_OBJECT(object)
+    CNemesisJScript* p_jsengine = new CNemesisJScript;
+    try {
+        int result = 0;
+        switch(p_jsengine->Init(argc,argv)){
+            case SO_CONTINUE:
+                result = 0;
+                if(p_jsengine->Run() == false) result = 1;
+                break;
+            case SO_EXIT:
+                return(0);
+            case SO_OPTS_ERROR:
+                return(1);
+            case SO_USER_ERROR:
+            default:
+                result = 2;
+                break;
+        }
+        p_jsengine->Finalize();
+        return(result);
+    } catch(std::exception& e) {
+        CTerminalStr tout;
+        tout.Attach(stderr);
+        tout << std::endl;
+        tout << "<red><b>>>> UNHANDLED EXCEPTION: " << e.what() << "</b></red>" << std::endl;
+        ErrorSystem.PrintErrors(tout);
+        tout << std::endl;
+        return(255);
+    }
 }
-
 
 //==============================================================================
 //------------------------------------------------------------------------------
