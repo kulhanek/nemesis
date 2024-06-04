@@ -75,19 +75,29 @@ CSketchProjectWindow::CSketchProjectWindow(CSketchProject* p_project)
         ES_ERROR("url is not valid");
     }
 
-    cout << url.toString().toStdString() << endl;
-
     setCentralWidget(WebView);
+
+   // cout << url.toString().toStdString() << endl;
     WebView->load(url);
 
     // no scrollbars
-    // FIXME
-    // WebView->settings()->setAttribute(QWebEngineSettings::ShowScrollBars,false);
+    WebView->page()->settings()->setAttribute(QWebEngineSettings::ShowScrollBars,false);
     WebView->setContextMenuPolicy(Qt::CustomContextMenu);
 
     // status bar
     ProjectStatusBar = new CProjectStatusBar(this,Project);
     setStatusBar(ProjectStatusBar);
+
+    // fix ketcher UI after page is loaded
+    connect(WebView,SIGNAL(loadFinished(bool)),this,SLOT(PageLoaded()));
+}
+
+//------------------------------------------------------------------------------
+
+void CSketchProjectWindow::PageLoaded(void)
+{
+    // DEBUG: cout << "here" << endl;
+    WebView->page()->runJavaScript("window.dispatchEvent(new Event('resize'));");
 }
 
 //------------------------------------------------------------------------------

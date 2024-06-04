@@ -71,6 +71,8 @@ private slots:
 
     void DeleteAll(void);
 
+    void PageLoaded(void);
+
 // STRUCTURE ====================================================================
 private:
     void ConnectStructureMenu(void);

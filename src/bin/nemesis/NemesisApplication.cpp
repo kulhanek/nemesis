@@ -29,6 +29,7 @@
 CNemesisApplication::CNemesisApplication(int & argc, char ** argv)
     : QApplication(argc,argv)
 {
+    setApplicationName("Nemesis");
 }
 
 //------------------------------------------------------------------------------

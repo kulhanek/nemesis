@@ -39,7 +39,9 @@
 
 int main(int argc, char* argv[])
 {
-    // Qt WebEngine seems to be initialized from a plugin. Please set Qt::AA_ShareOpenGLContexts using QCoreApplication::setAttribute before constructing QGuiApplication.
+    // Qt WebEngine seems to be initialized from a plugin.
+    // Please set Qt::AA_ShareOpenGLContexts using QCoreApplication::setAttribute before constructing QGuiApplication.
+    // so be it ...
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts,true);
 
     // run application
