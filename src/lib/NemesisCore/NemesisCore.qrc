@@ -1,5 +1,13 @@
 <RCC>
   <qresource prefix="/">
+    <file>images/NemesisCore/cursors/DefaultCursor.svg</file>
+    <file>images/NemesisCore/cursors/RotateXCursor.svg</file>
+    <file>images/NemesisCore/cursors/RotateYZCursor.svg</file>
+    <file>images/NemesisCore/cursors/SelectCursor.svg</file>
+    <file>images/NemesisCore/cursors/TranslateAtomXCursor.svg</file>
+    <file>images/NemesisCore/cursors/TranslateAtomYZCursor.svg</file>
+    <file>images/NemesisCore/cursors/TranslateXCursor.svg</file>
+    <file>images/NemesisCore/cursors/TranslateYZCursor.svg</file>
     <file>images/NemesisCore/MainLogo.svg</file>
     <file>images/NemesisCore/MainLogoRotated.svg</file>
     <file>images/NemesisCore/trajectory/MoveDownTrajectoryFilter.svg</file>
@@ -125,12 +133,6 @@
     <file>images/NemesisCore/graphics/objects/AtomLabel.svg</file>
     <file>images/NemesisCore/graphics/objects/Point.svg</file>
     <file>images/NemesisCore/graphics/objects/Text.svg</file>
-    <file>images/NemesisCore/cursors/DefaultCursor.png</file>
-    <file>images/NemesisCore/cursors/SelectCursor.png</file>
-    <file>images/NemesisCore/cursors/TranslateYZCursor.png</file>
-    <file>images/NemesisCore/cursors/TranslateXCursor.png</file>
-    <file>images/NemesisCore/cursors/RotateYZCursor.png</file>
-    <file>images/NemesisCore/cursors/RotateXCursor.png</file>
     <file>images/NemesisCore/workpanel/WorkPanelList.svg</file>
     <file>images/NemesisCore/batchjob/BatchJobList.svg</file>
     <file>images/NemesisCore/build/InserterList.svg</file>

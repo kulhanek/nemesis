@@ -971,6 +971,8 @@ src/lib/NemesisCore/jscript/RootList.cpp
 src/lib/NemesisCore/jscript/RootList.hpp
 src/lib/NemesisCore/manip/drivers/AtomManipMouseDriver.cpp
 src/lib/NemesisCore/manip/drivers/AtomManipMouseDriver.hpp
+src/lib/NemesisCore/manip/drivers/AtomManipRelaxMouseDriver.cpp
+src/lib/NemesisCore/manip/drivers/AtomManipRelaxMouseDriver.hpp
 src/lib/NemesisCore/manip/drivers/DirManipMouseDriver.cpp
 src/lib/NemesisCore/manip/drivers/DirManipMouseDriver.hpp
 src/lib/NemesisCore/manip/drivers/MolManipMouseDriver.cpp

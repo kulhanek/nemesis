@@ -388,6 +388,7 @@ SET(NEMESIS_CORE_SRC
         manip/drivers/DirManipMouseDriver.cpp
         manip/drivers/MolManipMouseDriver.cpp
         manip/drivers/ObjManipMouseDriver.cpp
+        manip/drivers/AtomManipRelaxMouseDriver.cpp
 
     # build --------------------------------------
         build/Fragment.cpp

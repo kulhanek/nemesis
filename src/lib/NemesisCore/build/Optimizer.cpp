@@ -38,6 +38,7 @@ COptimizer::COptimizer(CPluginObject* p_objectinfo,CProject* p_project)
 {
     Setup = NULL;
     Structure = NULL;
+    MaxOptSteps = 0;
 }
 
 //==============================================================================
@@ -54,6 +55,13 @@ void COptimizer::SetOptimizerSetup(COptimizerSetup* p_setup)
 void COptimizer::SetOptimizedMolecule(CStructure* p_mol)
 {
     Structure = p_mol;
+}
+
+//------------------------------------------------------------------------------
+
+void COptimizer::SetMaxOptSteps(int num)
+{
+    MaxOptSteps = num;
 }
 
 //==============================================================================

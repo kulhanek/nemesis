@@ -235,6 +235,8 @@ void CGaussianInputExportTool::LoadWorkPanelSpecificData(CXMLElement* p_ele)
     if( p_ele->GetAttribute("gaussianChk",ddummy) ){
         WidgetUI.checkpointCB->setChecked(ddummy);
     }
+
+    CWorkPanel::LoadWorkPanelSpecificData(p_ele);
 }
 
 //------------------------------------------------------------------------------

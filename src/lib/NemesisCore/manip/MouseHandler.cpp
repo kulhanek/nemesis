@@ -39,6 +39,7 @@
 #include <DirManipMouseDriver.hpp>
 #include <MolManipMouseDriver.hpp>
 #include <ObjManipMouseDriver.hpp>
+#include <AtomManipRelaxMouseDriver.hpp>
 
 //==============================================================================
 //------------------------------------------------------------------------------
@@ -371,6 +372,8 @@ CMouseDriver* CMouseHandler::CreateDriver(EMouseDriver driver)
         case EMD_OBJ_MANIP:
             return( new CObjManipMouseDriver(this) );
 
+        case EMD_ATOM_MANIP_RELAX:
+            return( new CAtomManipRelaxMouseDriver(this) );
         default:
             ES_ERROR("not implemented mouse driver");
     }
@@ -391,6 +394,7 @@ EMouseDriver CMouseHandler::GetDriverType(CMouseDriver* p_driver)
     if( typeid(*p_driver) == typeid(CDirManipMouseDriver) ) return(EMD_DIR_MANIP);
     if( typeid(*p_driver) == typeid(CMolManipMouseDriver) ) return(EMD_MOL_MANIP);
     if( typeid(*p_driver) == typeid(CObjManipMouseDriver) ) return(EMD_OBJ_MANIP);
+    if( typeid(*p_driver) == typeid(CAtomManipRelaxMouseDriver) ) return(EMD_ATOM_MANIP_RELAX);
 
     LOGIC_ERROR("not recognized mouse driver");
 }

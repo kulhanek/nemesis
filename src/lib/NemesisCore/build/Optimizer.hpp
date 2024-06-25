@@ -51,11 +51,17 @@ public:
     /// set optimized molecule
     void SetOptimizedMolecule(CStructure* o_mol);
 
+    /// set number of optimization steps
+    void SetMaxOptSteps(int num);
+
 // section of private data -----------------------------------------------------
 protected:
     COptimizerSetup*    Setup;
     CStructure*         Structure;
     CLockLevels         BackupLockLevels;
+    int                 MaxOptSteps;    // 0 - number from setup
+                                        // -1 - infinite
+                                        // > 0 - given number of steps
 
 // executive methods -----------------------------------------------------------
     /// initialize job - executed from main thread

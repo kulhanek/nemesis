@@ -1,6 +1,7 @@
 // =============================================================================
 // NEMESIS - Molecular Modelling Package
 // -----------------------------------------------------------------------------
+//    Copyright (C) 2024 Petr Kulhanek, kulhanek@chemi.muni.cz
 //    Copyright (C) 2011 Petr Kulhanek, kulhanek@chemi.muni.cz
 //
 //     This program is free software; you can redistribute it and/or modify
@@ -18,7 +19,7 @@
 //     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // =============================================================================
 
-#include <SceneMouseDriver.hpp>
+#include <AtomManipRelaxMouseDriver.hpp>
 #include <ErrorSystem.hpp>
 #include <Manipulator.hpp>
 #include <SelectionList.hpp>
@@ -27,30 +28,60 @@
 #include <MouseDriverSetup.hpp>
 #include <MouseHandler.hpp>
 #include <QPixmap>
+#include <AtomSelection.hpp>
+#include <Atom.hpp>
+#include <Project.hpp>
+#include <StructureList.hpp>
 
 //==============================================================================
 //------------------------------------------------------------------------------
 //==============================================================================
 
-CSceneMouseDriver::CSceneMouseDriver(CMouseHandler* p_handler)
-    : CMouseDriver(p_handler),
-      DefaultCursor(QPixmap(":/images/NemesisCore/cursors/DefaultCursor.svg"),5,6),
-      SelectCursor(QPixmap(":/images/NemesisCore/cursors/SelectCursor.svg"),5,6),
-      RotateYZCursor(QPixmap(":/images/NemesisCore/cursors/RotateYZCursor.svg"),15,15),
-      RotateXCursor(QPixmap(":/images/NemesisCore/cursors/RotateXCursor.svg"),15,15),
-      TranslateYZCursor(QPixmap(":/images/NemesisCore/cursors/TranslateYZCursor.svg"),15,15),
-      TranslateXCursor(QPixmap(":/images/NemesisCore/cursors/TranslateXCursor.svg"),15,15)
+CAtomManipRelaxMouseDriver::CAtomManipRelaxMouseDriver(CMouseHandler* p_handler)
+    : CMouseDriver(p_handler)
 {
+    // install cursors
+    DefaultCursor           = QCursor(QPixmap(":/images/NemesisCore/cursors/DefaultCursor.svg"),5,6);
+    SelectCursor            = QCursor(QPixmap(":/images/NemesisCore/cursors/SelectCursor.svg"),5,6);
+    RotateYZCursor          = QCursor(QPixmap(":/images/NemesisCore/cursors/RotateYZCursor.svg"),15,15);
+    RotateXCursor           = QCursor(QPixmap(":/images/NemesisCore/cursors/RotateXCursor.svg"),15,15);
+    TranslateYZCursor       = QCursor(QPixmap(":/images/NemesisCore/cursors/TranslateYZCursor.svg"),15,15);
+    TranslateXCursor        = QCursor(QPixmap(":/images/NemesisCore/cursors/TranslateXCursor.svg"),15,15);
+    TranslateAtomYZCursor   = QCursor(QPixmap(":/images/NemesisCore/cursors/TranslateAtomYZCursor.svg"),15,15);
+    TranslateAtomXCursor    = QCursor(QPixmap(":/images/NemesisCore/cursors/TranslateAtomXCursor.svg"),15,15);
+
     CursorAction = EMA_NOTHING;
     CursorManipLevel = EML_YZ;
-    ResetManipulation();    
+    ResetManipulation();
+
+    // prepare new selection request
+    SelAtom = NULL;
+    SelRequest = new CSelectionRequest(NULL,"atom manip");
+
+    connect(SelRequest,SIGNAL(OnSelectionInitialized(void)),
+            this,SLOT(RequestInitialized(void)));
+    connect(SelRequest,SIGNAL(OnSelectionCompleted(void)),
+            this,SLOT(SelectionCompleted(void)));
+    connect(SelRequest,SIGNAL(OnDetached(void)),
+            this,SLOT(RequestDetached(void)));
+
+    SelRequest->SetRequest(GetSelection(),&SH_Atom,"to manipulate an atom position");
+}
+
+//------------------------------------------------------------------------------
+
+CAtomManipRelaxMouseDriver::~CAtomManipRelaxMouseDriver(void)
+{
+    SelAtom = NULL;
+    if( SelRequest ) delete SelRequest;
+    SelRequest = NULL;
 }
 
 //==============================================================================
 //------------------------------------------------------------------------------
 //==============================================================================
 
-void CSceneMouseDriver::MousePressEvent(QMouseEvent* p_event)
+void CAtomManipRelaxMouseDriver::MousePressEvent(QMouseEvent* p_event)
 {
     if( p_event == NULL ) {
         ES_ERROR("p_event is NULL");
@@ -80,9 +111,6 @@ void CSceneMouseDriver::MousePressEvent(QMouseEvent* p_event)
         case EMA_MOVE:
         case EMA_ROTATE:
         case EMA_SCALE:
-            if( GetActiveView() ){
-                GetActiveView()->SetCursor(Qt::SizeAllCursor);
-            }
             StartX = p_event->x();
             StartY = p_event->y();
             break;
@@ -100,7 +128,7 @@ void CSceneMouseDriver::MousePressEvent(QMouseEvent* p_event)
 
 //------------------------------------------------------------------------------
 
-void CSceneMouseDriver::MouseMoveEvent(QMouseEvent* p_event)
+void CAtomManipRelaxMouseDriver::MouseMoveEvent(QMouseEvent* p_event)
 {
     if( p_event == NULL ) {
         ES_ERROR("p_event is NULL");
@@ -187,7 +215,7 @@ void CSceneMouseDriver::MouseMoveEvent(QMouseEvent* p_event)
 
 //------------------------------------------------------------------------------
 
-void CSceneMouseDriver::MouseReleaseEvent(QMouseEvent* p_event)
+void CAtomManipRelaxMouseDriver::MouseReleaseEvent(QMouseEvent* p_event)
 {
     if( p_event == NULL ) {
         INVALID_ARGUMENT("p_event is NULL");
@@ -218,7 +246,7 @@ void CSceneMouseDriver::MouseReleaseEvent(QMouseEvent* p_event)
 
 //------------------------------------------------------------------------------
 
-void CSceneMouseDriver::WheelEvent(QWheelEvent* p_event)
+void CAtomManipRelaxMouseDriver::WheelEvent(QWheelEvent* p_event)
 {
     if( p_event == NULL ) {
         INVALID_ARGUMENT("p_event is NULL");
@@ -241,7 +269,7 @@ void CSceneMouseDriver::WheelEvent(QWheelEvent* p_event)
 
 //------------------------------------------------------------------------------
 
-void CSceneMouseDriver::KeyPressEvent(QKeyEvent* p_event)
+void CAtomManipRelaxMouseDriver::KeyPressEvent(QKeyEvent* p_event)
 {
     if( p_event == NULL ) {
         INVALID_ARGUMENT("p_event is NULL");
@@ -280,7 +308,7 @@ void CSceneMouseDriver::KeyPressEvent(QKeyEvent* p_event)
 
 //------------------------------------------------------------------------------
 
-void CSceneMouseDriver::KeyReleaseEvent(QKeyEvent* p_event)
+void CAtomManipRelaxMouseDriver::KeyReleaseEvent(QKeyEvent* p_event)
 {
     if( p_event == NULL ) {
         INVALID_ARGUMENT("p_event is NULL");
@@ -303,7 +331,7 @@ void CSceneMouseDriver::KeyReleaseEvent(QKeyEvent* p_event)
 
 //------------------------------------------------------------------------------
 
-void CSceneMouseDriver::LeaveEvent(QEvent* p_event)
+void CAtomManipRelaxMouseDriver::LeaveEvent(QEvent* p_event)
 {
     if( p_event == NULL ) {
         INVALID_ARGUMENT("p_event is NULL");
@@ -316,7 +344,7 @@ void CSceneMouseDriver::LeaveEvent(QEvent* p_event)
 
 //------------------------------------------------------------------------------
 
-void CSceneMouseDriver::ResetManipulation(void)
+void CAtomManipRelaxMouseDriver::ResetManipulation(void)
 {
     Action = EMA_NOTHING;
     ManipLevel = EML_YZ;
@@ -329,9 +357,11 @@ void CSceneMouseDriver::ResetManipulation(void)
     MouseY = 0;
 }
 
+//==============================================================================
 //------------------------------------------------------------------------------
+//==============================================================================
 
-void CSceneMouseDriver::UpdateCursor(void)
+void CAtomManipRelaxMouseDriver::UpdateCursor(void)
 {
     if( (Action == CursorAction) && (ManipLevel == CursorManipLevel) ) return;
     switch(Action){
@@ -339,7 +369,18 @@ void CSceneMouseDriver::UpdateCursor(void)
             SetCursor(DefaultCursor);
             break;
         case EMA_SELECT:
-            SetCursor(SelectCursor);
+            if( SelAtom == NULL ){
+                SetCursor(SelectCursor);
+            } else {
+                switch(ManipLevel){
+                    case EML_YZ:
+                        SetCursor(TranslateAtomYZCursor);
+                        break;
+                    case EML_X:
+                        SetCursor(TranslateAtomXCursor);
+                        break;
+                }
+            }
             break;
         case EMA_MOVE:
             switch(ManipLevel){
@@ -372,7 +413,7 @@ void CSceneMouseDriver::UpdateCursor(void)
 //------------------------------------------------------------------------------
 //==============================================================================
 
-void CSceneMouseDriver::EncodeMouseButtonsPress(QMouseEvent* p_event)
+void CAtomManipRelaxMouseDriver::EncodeMouseButtonsPress(QMouseEvent* p_event)
 {
     Action = EMA_NOTHING;
 
@@ -443,6 +484,54 @@ void CSceneMouseDriver::EncodeMouseButtonsPress(QMouseEvent* p_event)
             }
             break;
     }
+}
+
+//==============================================================================
+//------------------------------------------------------------------------------
+//==============================================================================
+
+void CAtomManipRelaxMouseDriver::AtomMove(const CPoint &dmov,CGraphicsView* p_view)
+{
+    if( SelAtom == NULL ) return;
+
+    CPoint _dmov = dmov;
+    CTransformation coord = p_view->GetTrans();
+    coord.Invert();
+    coord.Apply(_dmov);
+
+    GetSelection()->GetProject()->GetStructures()->BeginGeometryUpdate();
+    SelAtom->SetPos(SelAtom->GetPos()+_dmov);
+    GetSelection()->GetProject()->GetStructures()->EndGeometryUpdate(false);
+}
+
+//==============================================================================
+//------------------------------------------------------------------------------
+//==============================================================================
+
+void CAtomManipRelaxMouseDriver::RequestInitialized(void)
+{
+    SelAtom = NULL;
+}
+
+//------------------------------------------------------------------------------
+
+void CAtomManipRelaxMouseDriver::SelectionCompleted(void)
+{
+    SelAtom = NULL;
+    if( GetSelection()->NumOfSelectedObjects() == 1 ){
+        SelAtom = dynamic_cast<CAtom*>(GetSelection()->GetSelectedObject(0));
+    }
+    // std::cout << Action << " " << CursorAction << std::endl;
+    CursorAction = EMA_NOTHING;
+    UpdateCursor();
+}
+
+//------------------------------------------------------------------------------
+
+void CAtomManipRelaxMouseDriver::RequestDetached(void)
+{
+    SelAtom = NULL;
+    GetHandler()->ReleaseSecondaryDriver(this);
 }
 
 //==============================================================================

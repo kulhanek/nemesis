@@ -1,6 +1,7 @@
 // =============================================================================
 // NEMESIS - Molecular Modelling Package
 // -----------------------------------------------------------------------------
+//    Copyright (C) 2024 Petr Kulhanek, kulhanek@chemi.muni.cz
 //    Copyright (C) 2012 Petr Kulhanek, kulhanek@chemi.muni.cz
 //
 //     This program is free software; you can redistribute it and/or modify
@@ -30,6 +31,12 @@
 #include <WorkPanelList.hpp>
 #include <ContainerModel.hpp>
 #include <ErrorSystem.hpp>
+
+#include <PhysicalQuantities.hpp>
+#include <PhysicalQuantity.hpp>
+
+#include <Graphics.hpp>
+#include <GraphicsView.hpp>
 
 #include "StandardWPModule.hpp"
 #include "StructureListWorkPanel.hpp"
@@ -141,6 +148,13 @@ CStructureListWorkPanel::CStructureListWorkPanel(CProject* p_owner)
     //------------------
     connect(WidgetUI.duplicateStructurePB,SIGNAL(clicked(bool)),
             this,SLOT(DuplicateStructure(void)));
+
+    WidgetUI.duplicateOffsetSB->setPhysicalQuantity(PQ_DISTANCE);
+    WidgetUI.duplicateMoveXCB->setCheckState(Qt::Unchecked);
+    WidgetUI.duplicateMoveYCB->setCheckState(Qt::Checked);
+    WidgetUI.duplicateMoveZCB->setCheckState(Qt::Unchecked);
+    WidgetUI.duplicateOffsetSB->setInternalValue(1.5);
+
     //------------------
     connect(WidgetUI.infoStructurePB,SIGNAL(clicked(bool)),
             this,SLOT(StructureInfo(void)));
@@ -197,6 +211,60 @@ CStructureListWorkPanel::CStructureListWorkPanel(CProject* p_owner)
 CStructureListWorkPanel::~CStructureListWorkPanel(void)
 {
     SaveWorkPanelSetup();
+}
+
+//==============================================================================
+//------------------------------------------------------------------------------
+//==============================================================================
+
+void CStructureListWorkPanel::LoadWorkPanelSpecificData(CXMLElement* p_ele)
+{
+    if( p_ele == NULL ){
+        INVALID_ARGUMENT("p_ele == NULL");
+    }
+
+    bool bdummy = false;
+    if( p_ele->GetAttribute("dup_move_all",bdummy) ){
+        WidgetUI.duplicateMoveToAllCB->setChecked(bdummy);
+    }
+    if( p_ele->GetAttribute("dup_move_x",bdummy) ){
+        WidgetUI.duplicateMoveXCB->setChecked(bdummy);
+    }
+
+    if( p_ele->GetAttribute("dup_move_y",bdummy) ){
+        WidgetUI.duplicateMoveYCB->setChecked(bdummy);
+    }
+    if( p_ele->GetAttribute("dup_move_z",bdummy) ){
+        WidgetUI.duplicateMoveZCB->setChecked(bdummy);
+    }
+    if( p_ele->GetAttribute("dup_autofit",bdummy) ){
+        WidgetUI.autofitSceneCB->setChecked(bdummy);
+    }
+
+    double ddummy = 0.0;
+    if( p_ele->GetAttribute("dup_offset",ddummy) ){
+        WidgetUI.duplicateOffsetSB->setInternalValue(ddummy);
+    }
+
+    CWorkPanel::LoadWorkPanelSpecificData(p_ele);
+}
+
+//------------------------------------------------------------------------------
+
+void CStructureListWorkPanel::SaveWorkPanelSpecificData(CXMLElement* p_ele)
+{
+    if( p_ele == NULL ){
+        INVALID_ARGUMENT("p_ele == NULL");
+    }
+
+    p_ele->SetAttribute("dup_move_all",WidgetUI.duplicateMoveToAllCB->isChecked());
+    p_ele->SetAttribute("dup_move_x",WidgetUI.duplicateMoveXCB->isChecked());
+    p_ele->SetAttribute("dup_move_y",WidgetUI.duplicateMoveYCB->isChecked());
+    p_ele->SetAttribute("dup_move_z",WidgetUI.duplicateMoveZCB->isChecked());
+    p_ele->SetAttribute("dup_autofit",WidgetUI.autofitSceneCB->isChecked());
+    p_ele->SetAttribute("dup_offset",WidgetUI.duplicateOffsetSB->getInternalValue());
+
+    CWorkPanel::SaveWorkPanelSpecificData(p_ele);
 }
 
 //==============================================================================
@@ -307,7 +375,21 @@ void CStructureListWorkPanel::DuplicateStructure(void)
     if(selected_rows.count() != 1 ) return;
     CStructure* p_str = dynamic_cast<CStructure*>(ObjectsModel->GetItem(selected_rows[0]));
     if( p_str == NULL ) return;
-    List->DuplicateStructureWH(p_str);
+
+    bool move_to_all = WidgetUI.duplicateMoveToAllCB->checkState() == Qt::Checked;
+    bool move_x = WidgetUI.duplicateMoveXCB->checkState() == Qt::Checked;
+    bool move_y = WidgetUI.duplicateMoveYCB->checkState() == Qt::Checked;
+    bool move_z = WidgetUI.duplicateMoveZCB->checkState() == Qt::Checked;
+    double offset = WidgetUI.duplicateOffsetSB->getInternalValue();
+
+    List->DuplicateStructureWH(p_str,move_to_all,move_x,move_y,move_z,offset);
+
+    if( WidgetUI.autofitSceneCB->checkState() == Qt::Checked ){
+        CGraphicsView* p_view = GetProject()->GetGraphics()->GetPrimaryView();
+        if( p_view ){
+            p_view->FitScene();
+        }
+    }
 }
 
 //------------------------------------------------------------------------------

@@ -152,13 +152,21 @@ bool COpenBabelOptimizer::InitializationStep(void)
         index++;
     }
 
+    int maxstep = GetSetup()->MaxSteps;
+    if( MaxOptSteps > 0 ){
+        maxstep = MaxOptSteps;
+    }
+    if( MaxOptSteps < 0 ){
+        maxstep = -1;
+    }
+
     // optimize
     switch(GetSetup()->OptimizationMethod) {
     case EOBOM_STEEPEST_DESCENT:
-        OBForceField->SteepestDescentInitializeNemesis(GetSetup()->MaxSteps,GetSetup()->TermCrit, OBFF_ANALYTICAL_GRADIENT);
+        OBForceField->SteepestDescentInitializeNemesis(maxstep,GetSetup()->TermCrit, OBFF_ANALYTICAL_GRADIENT);
         break;
     case EOBOM_CONJUGATE_GRADIENTS:
-        OBForceField->ConjugateGradientsInitializeNemesis(GetSetup()->MaxSteps,GetSetup()->TermCrit, OBFF_ANALYTICAL_GRADIENT);
+        OBForceField->ConjugateGradientsInitializeNemesis(maxstep,GetSetup()->TermCrit, OBFF_ANALYTICAL_GRADIENT);
         break;
     }
 

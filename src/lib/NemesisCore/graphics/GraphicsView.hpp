@@ -22,7 +22,6 @@
 
 #include <QTimer>
 #include <QImage>
-#include <QGLContext>
 #include <NemesisCoreMainHeader.hpp>
 #include <ProObject.hpp>
 #include <Manipulator.hpp>

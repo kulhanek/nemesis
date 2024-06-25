@@ -3,6 +3,7 @@
 // =============================================================================
 // NEMESIS - Molecular Modelling Package
 // -----------------------------------------------------------------------------
+//    Copyright (C) 2024 Petr Kulhanek, kulhanek@chemi.muni.cz
 //    Copyright (C) 2010 Petr Kulhanek, kulhanek@chemi.muni.cz
 //    Copyright (C) 2009 Petr Kulhanek, kulhanek@chemi.muni.cz,
 //                       Jakub Stepan, xstepan3@chemi.muni.cz
@@ -134,6 +135,9 @@ public:
 
     /// set new residue for atom
     bool   SetResidueWH(CResidue* p_res);
+
+    /// add a new valence
+    bool   AddValenceWH(void);
 
 // informational methods ------------------------------------------------------
     /// get molecule

@@ -3,6 +3,7 @@
 // =============================================================================
 // NEMESIS - Molecular Modelling Package
 // -----------------------------------------------------------------------------
+//    Copyright (C) 2024 Petr Kulhanek, kulhanek@chemi.muni.cz
 //    Copyright (C) 2011 Petr Kulhanek, kulhanek@chemi.muni.cz
 //
 //     This program is free software; you can redistribute it and/or modify
@@ -54,7 +55,9 @@ public:
                                   const QString& descr = QString());
 
     /// duplicate structure, new structure is activated
-    CStructure* DuplicateStructureWH(CStructure* p_ostr);
+    CStructure* DuplicateStructureWH(CStructure* p_ostr,
+                                     bool move_to_all=false,
+                                     bool move_x=false,bool move_y=false,bool move_z=false,double offset=0.0);
 
     /// activate structure - structure must be owned by the list
     bool SetActiveStructureWH(CStructure* p_str);
@@ -86,7 +89,10 @@ public:
     CStructure* CreateStructure(CXMLElement* p_ele,CHistoryNode* p_history=NULL);
 
     /// duplicate structure
-    CStructure* DuplicateStructure(CStructure* p_ostr,bool activate, CHistoryNode* p_history=NULL);
+    CStructure* DuplicateStructure(CStructure* p_ostr,bool activate,
+                                   bool move_to_all=false,
+                                   bool move_x=false,bool move_y=false,bool move_z=false,double offset=0.0,
+                                   CHistoryNode* p_history=NULL);
 
     /// activate structure - structure must be owned by the list
     void SetActiveStructure(CStructure* p_str,CHistoryNode* p_history=NULL);
@@ -121,6 +127,12 @@ public:
 
     /// return number of empty structures
     int         GetNumberOfEmptyStructures(void) const;
+
+    /// return largest used sequnce index
+    int         GetLargestSequenceIndex(void) const;
+
+    /// get all molecule metrics, e.g. min and max geometrical dimensions
+    void GetObjectMetrics(CObjMetrics& metrics);
 
 // input/output methods --------------------------------------------------------
     /// load all structures with history recording

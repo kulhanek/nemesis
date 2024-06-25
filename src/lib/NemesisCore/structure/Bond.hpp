@@ -123,9 +123,6 @@ public:
     /// get main bond vector - ve
     const CPoint    GetMainVector(void) const;
 
-    /// get main end of the bond
-    CAtom*          GetMainEnd(void) const;
-
     /// is bond selected by residues?
     bool            IsSelectedByResidues(void);
 

@@ -48,7 +48,8 @@ enum EMouseDriver{
     EMD_ATOM_MANIP,
     EMD_DIR_MANIP,
     EMD_MOL_MANIP,
-    EMD_OBJ_MANIP
+    EMD_OBJ_MANIP,
+    EMD_ATOM_MANIP_RELAX,
 };
 
 // -----------------------------------------------------------------------------

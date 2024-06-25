@@ -3,6 +3,7 @@
 // =============================================================================
 // NEMESIS - Molecular Modelling Package
 // -----------------------------------------------------------------------------
+//    Copyright (C) 2024 Petr Kulhanek, kulhanek@chemi.muni.cz
 //    Copyright (C) 2012 Petr Kulhanek, kulhanek@chemi.muni.cz
 //
 //     This program is free software; you can redistribute it and/or modify
@@ -46,6 +47,9 @@ private:
 
     /// raised when window is docked/undocked from the main window
     virtual void WindowDockStatusChanged(bool docked);
+
+    virtual void  LoadWorkPanelSpecificData(CXMLElement* p_ele);
+    virtual void  SaveWorkPanelSpecificData(CXMLElement* p_ele);
 
 private slots:
     void ProjectNameChanged(CProject* p_project);

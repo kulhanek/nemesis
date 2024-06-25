@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>234</width>
-    <height>363</height>
+    <width>347</width>
+    <height>587</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -192,7 +192,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="StandardWP.qrc">
               <normaloff>:/images/StandardWP/StructureListWorkPanel/NewStructure.svg</normaloff>:/images/StandardWP/StructureListWorkPanel/NewStructure.svg</iconset>
             </property>
             <property name="iconSize">
@@ -218,7 +218,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="StandardWP.qrc">
               <normaloff>:/images/StandardWP/StructureListWorkPanel/ActivateStructure.svg</normaloff>:/images/StandardWP/StructureListWorkPanel/ActivateStructure.svg</iconset>
             </property>
             <property name="iconSize">
@@ -241,7 +241,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="StandardWP.qrc">
               <normaloff>:/images/StandardWP/StructureListWorkPanel/ActiveStructureInfo.svg</normaloff>:/images/StandardWP/StructureListWorkPanel/ActiveStructureInfo.svg</iconset>
             </property>
             <property name="iconSize">
@@ -280,7 +280,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="StandardWP.qrc">
               <normaloff>:/images/StandardWP/StructureListWorkPanel/RemoveStructure.svg</normaloff>:/images/StandardWP/StructureListWorkPanel/RemoveStructure.svg</iconset>
             </property>
             <property name="iconSize">
@@ -303,7 +303,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="StandardWP.qrc">
               <normaloff>:/images/StandardWP/StructureListWorkPanel/DuplicateStructure.svg</normaloff>:/images/StandardWP/StructureListWorkPanel/DuplicateStructure.svg</iconset>
             </property>
             <property name="iconSize">
@@ -442,10 +442,10 @@
        <property name="bottomMargin">
         <number>0</number>
        </property>
-       <item>
+       <item alignment="Qt::AlignTop">
         <widget class="QTabWidget" name="tabWidget_2">
          <property name="currentIndex">
-          <number>1</number>
+          <number>2</number>
          </property>
          <property name="documentMode">
           <bool>true</bool>
@@ -501,6 +501,9 @@
           </layout>
          </widget>
          <widget class="QWidget" name="miscTab">
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
           <attribute name="title">
            <string>Misc</string>
           </attribute>
@@ -560,6 +563,96 @@
            </item>
           </layout>
          </widget>
+         <widget class="QWidget" name="setupTab">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <attribute name="title">
+           <string>Setup</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_8">
+           <item>
+            <widget class="QGroupBox" name="groupBox">
+             <property name="title">
+              <string>Duplicate</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_9">
+              <item>
+               <widget class="QCheckBox" name="duplicateMoveXCB">
+                <property name="text">
+                 <string>Move in x-axis</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="duplicateMoveYCB">
+                <property name="text">
+                 <string>Move in y-axis</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="duplicateMoveZCB">
+                <property name="text">
+                 <string>Move in z-axis</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_3">
+                <item>
+                 <widget class="QLabel" name="label">
+                  <property name="text">
+                   <string>Offset:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QQuantitySpinBox" name="duplicateOffsetSB">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                  <property name="singleStep">
+                   <double>0.100000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="duplicateMoveToAllCB">
+                <property name="text">
+                 <string>Move towards all structures</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="autofitSceneCB">
+                <property name="text">
+                 <string>Autofit scene</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
         </widget>
        </item>
       </layout>
@@ -575,6 +668,15 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <customwidgets>
+  <customwidget>
+   <class>QQuantitySpinBox</class>
+   <extends>QDoubleSpinBox</extends>
+   <header>QuantitySpinBox.hpp</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="StandardWP.qrc"/>
+ </resources>
  <connections/>
 </ui>

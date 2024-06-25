@@ -1,6 +1,7 @@
 // =============================================================================
 // NEMESIS - Molecular Modelling Package
 // -----------------------------------------------------------------------------
+//    Copyright (C) 2024 Petr Kulhanek, kulhanek@chemi.muni.cz
 //    Copyright (C) 2011 Petr Kulhanek, kulhanek@chemi.muni.cz
 //
 //     This program is free software; you can redistribute it and/or modify
@@ -145,7 +146,9 @@ CStructure* CStructureList::CreateStructureFromSelectedResiduesWH(const QString&
 
 //------------------------------------------------------------------------------
 
-CStructure* CStructureList::DuplicateStructureWH(CStructure* p_ostr)
+CStructure* CStructureList::DuplicateStructureWH(CStructure* p_ostr,
+                                                 bool move_to_all,
+                                                 bool move_x, bool move_y, bool move_z, double offset)
 {
     CHistoryNode* p_history = BeginChangeWH(EHCL_STRUCTURES,tr("duplicate structure"));
     if( p_history == NULL ){
@@ -153,7 +156,9 @@ CStructure* CStructureList::DuplicateStructureWH(CStructure* p_ostr)
         return(NULL);
     }
 
-    CStructure* p_nstr = DuplicateStructure(p_ostr,true,p_history);
+    CStructure* p_nstr = DuplicateStructure(p_ostr,true,
+                                            move_to_all,move_x,move_y,move_z,offset,
+                                            p_history);
 
     EndChangeWH();
 
@@ -410,8 +415,24 @@ void CStructureList::SetActiveStructure(CStructure* p_str,CHistoryNode* p_histor
 
 //------------------------------------------------------------------------------
 
-CStructure* CStructureList::DuplicateStructure(CStructure* p_ostr,bool activate, CHistoryNode* p_history)
+CStructure* CStructureList::DuplicateStructure(CStructure* p_ostr,bool activate,
+                                               bool move_to_all,bool move_x,bool move_y,bool move_z,double offset,
+                                               CHistoryNode* p_history)
 {
+    // get largest sequence index
+    int lseqidx = GetLargestSequenceIndex();
+    lseqidx++;
+
+    // get bounding box for all structures
+    CObjMetrics scene_metrics;
+    CObjMetrics newstr_metrics;
+
+    if( move_to_all ) {
+        GetObjectMetrics(scene_metrics);
+    } else {
+        p_ostr->GetObjectMetrics(scene_metrics);
+    }
+
     // create new structure
     CStructure* p_nstr = CreateStructure(QString(),QString(),p_history);
 
@@ -425,6 +446,37 @@ CStructure* CStructureList::DuplicateStructure(CStructure* p_ostr,bool activate,
     GetProject()->BeginLinkProcedure();
     p_nstr->LoadStructureData(p_ele);
     GetProject()->EndLinkProcedure();
+
+    // update index
+    p_nstr->SetSeqIndex(lseqidx,p_history);
+
+    // update position
+    p_nstr->GetObjectMetrics(newstr_metrics);
+
+    CPoint move;
+    if( offset > 0.0 ){
+        if( move_x ){
+            move.x = - newstr_metrics.GetLowPoint().x + scene_metrics.GetHighPoint().x + offset;
+        }
+        if( move_y ){
+            move.y = - newstr_metrics.GetLowPoint().y + scene_metrics.GetHighPoint().y + offset;
+        }
+        if( move_z ){
+            move.z = - newstr_metrics.GetLowPoint().z + scene_metrics.GetHighPoint().z + offset;
+        }
+    } else {
+        if( move_x ){
+            move.x = - newstr_metrics.GetHighPoint().x + scene_metrics.GetLowPoint().x + offset;
+        }
+        if( move_y ){
+            move.y = - newstr_metrics.GetHighPoint().y + scene_metrics.GetLowPoint().y + offset;
+        }
+        if( move_z ){
+            move.z = - newstr_metrics.GetHighPoint().z + scene_metrics.GetLowPoint().z + offset;
+        }
+    }
+
+    p_nstr->GetAtoms()->MoveByWH(move);
 
     // activate new structure
     if( activate ) SetActiveStructure(p_nstr,p_history);
@@ -595,6 +647,30 @@ int CStructureList::GetNumberOfEmptyStructures(void) const
         }
     }
     return(count);
+}
+
+//------------------------------------------------------------------------------
+
+int CStructureList::GetLargestSequenceIndex(void) const
+{
+    int seqidx = 0;
+    foreach(QObject* p_qobj,children()) {
+        CStructure* p_str = static_cast<CStructure*>(p_qobj);
+        if( (seqidx < p_str->GetSeqIndex()) || (p_qobj == children().first()) ){
+            seqidx = p_str->GetSeqIndex();
+        }
+    }
+    return(seqidx);
+}
+
+//------------------------------------------------------------------------------
+
+void CStructureList::GetObjectMetrics(CObjMetrics& metrics)
+{
+    foreach(QObject* p_qobj,children()) {
+        CStructure* p_str = static_cast<CStructure*>(p_qobj);
+        p_str->GetObjectMetrics(metrics);
+    }
 }
 
 //==============================================================================

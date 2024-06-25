@@ -1,6 +1,7 @@
 // =============================================================================
 // NEMESIS - Molecular Modelling Package
 // -----------------------------------------------------------------------------
+//    Copyright (C) 2024 Petr Kulhanek, kulhanek@chemi.muni.cz
 //    Copyright (C) 2010 Petr Kulhanek, kulhanek@chemi.muni.cz
 //    Copyright (C) 2008 Petr Kulhanek, kulhanek@enzim.hu,
 //                       Jakub Stepan, xstepan3@chemi.muni.cz

@@ -3,6 +3,7 @@
 // =============================================================================
 // NEMESIS - Molecular Modelling Package
 // -----------------------------------------------------------------------------
+//    Copyright (C) 2024 Petr Kulhanek, kulhanek@chemi.muni.cz
 //    Copyright (C) 2008 Petr Kulhanek, kulhanek@enzim.hu,
 //                       Jakub Stepan, xstepan3@chemi.muni.cz
 //    Copyright (C) 1998-2004 Petr Kulhanek, kulhanek@chemi.muni.cz
@@ -28,6 +29,8 @@
 #include <QDialog>
 #include <HistoryList.hpp>
 #include <SelectionList.hpp>
+#include <Job.hpp>
+#include <Optimizer.hpp>
 
 // -----------------------------------------------------------------------------
 
@@ -40,6 +43,7 @@ enum EBuildAction { // supported actions
     EBA_DELETE_BOND,
     EBA_MAKE_BOND,
     EBA_BREAK_BOND,
+    EBA_ADD_VALENCE,
 };
 
 // -----------------------------------------------------------------------------
@@ -62,13 +66,12 @@ private:
     QButtonGroup*           ActionGroup;
     QAbstractButton*        ActiveButton;
     CSelectionRequest*      SelRequest;
-    QAction*                AutoCenter;
-    QAction*                AllowNewStructure;
     EBuildAction            Action;
     int                     Z;
     EBondOrder              Order;
     CFragmentPalette        BasicFragments;
     CFragmentPalette        GeneralFragments;
+    COptimizer*             Optimizer;
 
     // set action
     void SetAction(EBuildAction new_action);
@@ -79,6 +82,9 @@ private:
     // return active fragment
     CFragment* GetActiveFragment(void);
 
+    virtual void  LoadWorkPanelSpecificData(CXMLElement* p_ele);
+    virtual void  SaveWorkPanelSpecificData(CXMLElement* p_ele);
+
 private slots:
     void ActionChange(QAbstractButton* p_button);
     void SelectionCompleted(void);
@@ -88,6 +94,7 @@ private slots:
     void ElementChanged(int z);
     void ProjectLockChanged(EHistoryChangeMessage message);
     void UpdateInserterSetup(void);
+    void JobStatusChanged(CJob* p_job);
 };
 
 // -----------------------------------------------------------------------------

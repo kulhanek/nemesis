@@ -1,6 +1,7 @@
 // =============================================================================
 // NEMESIS - Molecular Modelling Package
 // -----------------------------------------------------------------------------
+//    Copyright (C) 2024 Petr Kulhanek, kulhanek@chemi.muni.cz
 //    Copyright (C) 2010 Petr Kulhanek, kulhanek@chemi.muni.cz
 //    Copyright (C) 2008 Petr Kulhanek, kulhanek@enzim.hu,
 //                       Jakub Stepan, xstepan3@chemi.muni.cz
@@ -36,6 +37,7 @@
 #include <Project.hpp>
 #include <HistoryNode.hpp>
 #include <Snapshot.hpp>
+#include <random>
 
 //==============================================================================
 //------------------------------------------------------------------------------
@@ -397,6 +399,58 @@ bool CAtom::SetResidueWH(CResidue* p_res)
     GetAtoms()->EmitOnAtomListChanged();
 
     p_str->EndChangeWH();
+    return(true);
+}
+
+//------------------------------------------------------------------------------
+
+bool CAtom::AddValenceWH(void)
+{
+    // with history
+    CHistoryNode* p_history = BeginChangeWH(EHCL_GEOMETRY,"add a new valence");
+    if( p_history == NULL ) return(false);
+
+    // calculate the COG of all other atoms connected to this one
+    CPoint ocog;
+
+    int natoms = 0;
+    foreach(CBond *p_b,Bonds){
+        CAtom* p_oatm = p_b->GetOppositeAtom(this);
+        ocog += p_oatm->GetPos();
+        natoms++;
+    }
+
+    CPoint dir; // direction of new valence
+    if( natoms > 0.0 ){
+        ocog /= (double)natoms;
+        dir  = GetPos() - ocog;
+    }
+
+    if( (natoms == 0) || (Size(dir) < 0.001) ){
+        // random vector - if no suitable direction
+        double lower_bound = 0.0;
+        double upper_bound = 1.0;
+        std::uniform_real_distribution<double> unif(lower_bound,upper_bound);
+        std::default_random_engine re;
+        re.seed(std::chrono::system_clock::now().time_since_epoch().count());
+        dir.x = unif(re);
+        dir.y = unif(re);
+        dir.z = unif(re);
+    }
+
+    // normalize
+    dir.Normalize();
+
+    // position of new atom
+    ocog = dir + GetPos();
+
+    // add atom
+    CAtom* p_natm = GetAtoms()->CreateAtom(1,ocog,p_history);
+
+    // and bond
+    GetStructure()->GetBonds()->CreateBond(this,p_natm,BO_SINGLE,p_history);
+
+    EndChangeWH();
     return(true);
 }
 

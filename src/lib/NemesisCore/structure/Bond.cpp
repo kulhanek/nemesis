@@ -366,84 +366,94 @@ CAtom* CBond::GetConnectAtom(void) const
 
 const CPoint CBond::GetMainVector(void) const
 {
-    CPoint vector;
-    if( Order <= BO_SINGLE ) return(vector);
-    if( (A1 == NULL) || (A2 == NULL) ) return(vector);
+    if( (A1 == NULL) || (A2 == NULL) ){
+        CPoint mainvector(1.0,0.0,0.0);
+        return(mainvector);
+    }
 
-    CAtom* p_masteratom = GetMainEnd();
-    if( p_masteratom == NULL ) return(vector);
+    if( (Order == BO_SINGLE) || (Order == BO_TRIPLE) || (Order == BO_WEAK) || (Order == BO_NONE) ){
+        // any perpendicular vector does the job
+        CPoint thisvector = A1->GetPos() - A2->GetPos();
+        CPoint mainvector;
+        if( thisvector.x != 0.0 ){
+            mainvector.y = thisvector.x;
+            mainvector.x = -thisvector.y;
+        } else if (thisvector.y != 0.0) {
+            mainvector.x = thisvector.y;
+            mainvector.y = -thisvector.x;
+        } else if (thisvector.z != 0.0) {
+            mainvector.y = thisvector.z;
+            mainvector.z = -thisvector.y;
+        } else {
+            mainvector.x = 1.0;
+        }
+        mainvector = CrossDot(thisvector,mainvector);
+        mainvector.Normalize();
+        return(mainvector);
+    }
 
-    CPoint thisvector   = A1->GetPos() - A2->GetPos();
+    // get main atom
+    CAtom* p_matom = A1;
+    if( A2->GetNumberOfBonds() > A1->GetNumberOfBonds() ) p_matom = A2;
 
-    // cumulenes
-    if( (Order == BO_DOUBLE) && (A1->GetNumberOfBonds() == 2) && (A2->GetNumberOfBonds() == 2) ){
-        // get the adjacent bond
-        CBond*  p_adj_bond = NULL;
-        foreach(CBond* p_b,p_masteratom->GetBonds()){
+    CPoint thisvector = A1->GetPos() - A2->GetPos();
+    CPoint mainvector;
+
+    if( p_matom->GetNumberOfBonds() <= 2 ){
+        // cumullene
+        // FIXME - can be done better
+        // any perpendicular vector does the job
+        mainvector.SetZero();
+        if( thisvector.x != 0.0 ){
+            mainvector.y = thisvector.x;
+            mainvector.x = -thisvector.y;
+        } else if (thisvector.y != 0.0) {
+            mainvector.x = thisvector.y;
+            mainvector.y = -thisvector.x;
+        } else if (thisvector.z != 0.0) {
+            mainvector.y = thisvector.z;
+            mainvector.z = -thisvector.y;
+        } else {
+            mainvector.x = 1.0;
+        }
+    } else {
+        foreach(CBond* p_b,p_matom->GetBonds() ) {
             if( p_b != this ) {
-                p_adj_bond = p_b;
-                break;
+                CPoint vector = p_b->A1->GetPos() - p_b->A2->GetPos();
+                CPoint cv = CrossDot(thisvector,vector);
+                if( VectDot(mainvector,cv) < 0.0 ){
+                    cv *= -1.0;
+                }
+                mainvector += cv;
             }
         }
-        if( p_adj_bond != NULL ){
-            CPoint adjvector   = p_adj_bond->GetMainVector();
-            vector = CrossDot(thisvector,adjvector);
-            vector.Normalize();
-        }
-        return(vector);
     }
 
-
-    // regular double/tripple bond
-    CPoint totvector;
-
-    if( (GetFirstAtom()->GetZ() > 1) ) {
-        p_masteratom = GetFirstAtom();
+    if( Size(mainvector) > 0.0 ) {
+        mainvector.Normalize();
     } else {
-        p_masteratom = GetSecondAtom();
-    }
-
-    foreach(CBond* p_b,p_masteratom->GetBonds() ) {
-        if( p_b != this ) {
-            vector = p_b->A1->GetPos() - p_b->A2->GetPos();
-            totvector += CrossDot(thisvector,vector);
-            break;  // only one bond
+        // any perpendicular vector does the job
+        mainvector.SetZero();
+        if( thisvector.x != 0.0 ){
+            mainvector.y = thisvector.x;
+            mainvector.x = -thisvector.y;
+        } else if (thisvector.y != 0.0) {
+            mainvector.x = thisvector.y;
+            mainvector.y = -thisvector.x;
+        } else if (thisvector.z != 0.0) {
+            mainvector.y = thisvector.z;
+            mainvector.z = -thisvector.y;
+        } else {
+            mainvector.x = 1.0;
         }
     }
 
-    if( Size(totvector) != 0 ) {
-        totvector = CrossDot(totvector,thisvector);
-    } else {
-        totvector = thisvector;
-        totvector.x += 1;
-        totvector = CrossDot(thisvector,totvector);
+    // and finaly to the main bond vector
+    mainvector = CrossDot(thisvector,mainvector);
+    if( Size(mainvector) > 0.0 ) {
+        mainvector.Normalize();
     }
-    totvector.Normalize();
-
-    return(totvector);
-}
-
-//------------------------------------------------------------------------------
-
-CAtom* CBond::GetMainEnd(void) const
-{
-    if( A1 == NULL) return(A2);
-    if( A2 == NULL) return(A1);
-
-    // cumulenes
-    if( (Order == BO_DOUBLE) && (A1->GetNumberOfBonds() == 2) && (A2->GetNumberOfBonds() == 2) ){
-
-    }
-
-    // all other situations
-    CAtom* p_masteratom;
-    if( (GetFirstAtom()->GetZ() > 1) ) {
-        p_masteratom = GetFirstAtom();
-    } else {
-        p_masteratom = GetSecondAtom();
-    }
-
-    return(p_masteratom);
+    return(mainvector);
 }
 
 //------------------------------------------------------------------------------
