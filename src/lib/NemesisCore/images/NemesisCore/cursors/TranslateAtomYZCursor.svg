@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="40"
+   height="40"
+   id="svg2"
+   version="1.1"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   inkscape:export-filename="/scratch/kulhanek/Development/linux/projects/nemesis/24.x/src/lib/NemesisCore/images/NemesisCore/cursors/TranslateAtomYZCursor.png"
+   inkscape:export-xdpi="76.800003"
+   inkscape:export-ydpi="76.800003"
+   sodipodi:docname="TranslateAtomYZCursor.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="8"
+     inkscape:cx="21.8125"
+     inkscape:cy="16.0625"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="pt"
+     inkscape:window-width="2560"
+     inkscape:window-height="1536"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:pagecheckerboard="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-1012.3622)">
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 2.875,19.875 34.75,-0.25"
+       id="path3922"
+       inkscape:connector-curvature="0"
+       transform="translate(0,1012.3622)" />
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 20,1016.6122 0.375,31.375"
+       id="path3924"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 24,11.5 15.375,11.625 19.75,1.6249999 25.125,11.25 l -2,0.375"
+       id="path3926"
+       inkscape:connector-curvature="0"
+       transform="translate(0,1012.3622)" />
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:0.92817694px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 39,1031.7624 -8.375,5.5998 -0.125,-10.3381 z"
+       id="path3928-2"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 16.5,1040.3622 8.625,-0.125 -4.375,10 -5.375,-9.625 2,-0.375"
+       id="path3926-1"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:0.92817694px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 1.25,1032.4179 8.375,-5.5998 0.125,10.3381 z"
+       id="path3928-2-5"
+       inkscape:connector-curvature="0" />
+    <circle
+       style="fill:#ff0000;stroke:#ff0000;stroke-width:1.00157"
+       id="path868"
+       cx="20.333252"
+       cy="1032.2906"
+       r="3.920166" />
+  </g>
+</svg>

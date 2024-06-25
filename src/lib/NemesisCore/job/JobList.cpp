@@ -75,7 +75,13 @@ bool CJobList::RegisterJob(CJob* p_job)
 
 void CJobList::TerminateAllJobs(void)
 {
-    // TODO
+    foreach(QObject* p_obj, children()){
+        CJob* p_job = dynamic_cast<CJob*>(p_obj);
+        if( p_job != NULL ){
+            p_job->TerminateJob();
+            p_job->WaitForEndWithEventLoop();
+        }
+    }
 }
 
 //==============================================================================

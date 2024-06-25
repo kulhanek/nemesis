@@ -117,6 +117,9 @@ CProject::CProject(CPluginObject* p_objectinfo,CExtComObject* p_parent)
 
 CProject::~CProject(void)
 {   
+    // stop all jobs if any is running
+    Jobs->TerminateAllJobs();
+
     // destroy all children objects here, so their CProObject destructors can
     // reach ObjectMap
     // for details CProObject::~CProObject
