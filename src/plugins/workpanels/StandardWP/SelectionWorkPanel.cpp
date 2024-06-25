@@ -82,8 +82,6 @@ CSelectionWorkPanel::CSelectionWorkPanel(CProject* p_project)
     WidgetUI.setupUi(this);
 
     // events
-    connect(Projects,SIGNAL(OnActiveProjectChanged(CProject*)),
-            this,SLOT(ActiveProjectChanged(CProject*)));
     connect(Projects,SIGNAL(OnProjectNameChanged(CProject*)),
             this,SLOT(ProjectNameChanged(CProject*)));
     //--------------
