@@ -97,23 +97,22 @@ void CAtomManipRelaxMouseDriver::MousePressEvent(QMouseEvent* p_event)
     EncodeMouseButtonsPress(p_event);
 
     // execute selected action
-    MouseX = p_event->x();
-    MouseY = p_event->y();
+    StartX = p_event->x();
+    StartY = p_event->y();
 
     switch(Action) {
         case EMA_NOTHING:
             break;
 
         case EMA_SELECT:
-            SelectObject(MouseX,MouseY);
+            SelectObject(StartX,StartY);
             break;
 
         case EMA_MOVE:
         case EMA_ROTATE:
         case EMA_SCALE:
-            StartX = p_event->x();
-            StartY = p_event->y();
             break;
+
         default:
             ES_ERROR("not implemented");
             break;
@@ -147,8 +146,22 @@ void CAtomManipRelaxMouseDriver::MouseMoveEvent(QMouseEvent* p_event)
 
     switch(Action) {
         case EMA_NOTHING:
-        case EMA_SELECT:
             return;
+        case EMA_SELECT:
+            switch(ManipLevel) {
+                case EML_YZ:
+                    manip.x =  0;
+                    manip.y =  CMouseDriverSetup::MSensitivity.y * (p_event->x() - StartX);
+                    manip.z = -CMouseDriverSetup::MSensitivity.z * (p_event->y() - StartY);
+                    break;
+                case EML_X:
+                    manip.x = CMouseDriverSetup::MSensitivity.x * (p_event->y() - StartY);
+                    manip.y = 0;
+                    manip.z = 0;
+                    break;
+            }
+            AtomMove(manip,GetActiveView());
+            break;
 
         case EMA_MOVE:
             switch(ManipLevel) {
@@ -353,8 +366,6 @@ void CAtomManipRelaxMouseDriver::ResetManipulation(void)
 
     StartX = 0;
     StartY = 0;
-    MouseX = 0;
-    MouseY = 0;
 }
 
 //==============================================================================
@@ -499,9 +510,7 @@ void CAtomManipRelaxMouseDriver::AtomMove(const CPoint &dmov,CGraphicsView* p_vi
     coord.Invert();
     coord.Apply(_dmov);
 
-    GetSelection()->GetProject()->GetStructures()->BeginGeometryUpdate();
-    SelAtom->SetPos(SelAtom->GetPos()+_dmov);
-    GetSelection()->GetProject()->GetStructures()->EndGeometryUpdate(false);
+    SelAtom->SetManipDMove(_dmov);
 }
 
 //==============================================================================

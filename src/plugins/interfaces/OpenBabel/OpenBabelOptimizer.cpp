@@ -183,17 +183,37 @@ bool COpenBabelOptimizer::OptimizationStep(void)
 
     bool done;
 
+    // was any atom moved?
+    bool moved = false;
+    int i = 1;
+    foreach(QObject* p_qobj,Structure->GetAtoms()->children()) {
+        CAtom*  p_atom = static_cast<CAtom*>(p_qobj);
+        CPoint pos = p_atom->GetPos();
+        if( p_atom->IsManipDMoved() ){
+            CPoint dmov = p_atom->GetManipDMove();
+            pos = pos + dmov;
+            moved = true;
+        }
+        OBAtom* p_ob_atom = OBMol.GetAtom(i);
+        p_ob_atom->SetVector(pos.x, pos.y, pos.z);
+        i++;
+    }
+
+    if( moved ){
+        OBForceField->SetCoordinates(OBMol);
+    }
+
     // prepare restraints
     RestraintEnergy = Structure->GetRestraints()->GetEnergy(RestraintGradients,AtomMap);
 
     switch(GetSetup()->OptimizationMethod) {
+    // steepest descent
     case EOBOM_STEEPEST_DESCENT:
-        done = OBForceField->SteepestDescentNemesis(RestraintGradients.GetRawDataField(),
-                                                       RestraintEnergy);
+        done = OBForceField->SteepestDescentNemesis(RestraintGradients.GetRawDataField(),RestraintEnergy);
         break;
+    // conjugate gradients
     case EOBOM_CONJUGATE_GRADIENTS:
-        done = OBForceField->ConjugateGradientsNemesis(RestraintGradients.GetRawDataField(),
-                                                          RestraintEnergy);
+        done = OBForceField->ConjugateGradientsNemesis(RestraintGradients.GetRawDataField(),RestraintEnergy);
         break;
     }
 

@@ -220,6 +220,15 @@ public:
     /// set atom position
     void SetPos(const CPoint& pos,CHistoryNode* p_history=NULL);
 
+    /// set manipulation dmove - used by Optimizers and CAtomManipRelaxMouseDriver
+    void SetManipDMove(const CPoint& dmov);
+
+    /// was the atom moved?
+    bool IsManipDMoved(void);
+
+    /// get manip dmove
+    const CPoint GetManipDMove(void);
+
     /// set atom velocities
     void SetVel(const CPoint& vel,CHistoryNode* p_history=NULL);
 
@@ -279,6 +288,10 @@ private:
     CPoint              Vel;                ///< velocity
     QList<CBond*>       Bonds;              /*!< bond list */
     int                 TrajIndex;          ///< trajectory index for accessing data in snapshot
+
+    /// partial move
+    CPoint              DMove;
+    bool                DMoveSet;
 
     /// helper method
     CBond*  RemoveBondFromBegin(void);

@@ -84,8 +84,6 @@ private:
     // manipulators ---------------------
     int             StartX;
     int             StartY;
-    int             MouseX;
-    int             MouseY;
 
     void EncodeMouseButtonsPress(QMouseEvent* p_event);
 

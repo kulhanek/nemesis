@@ -65,6 +65,7 @@ CAtom::CAtom(CAtomList* p_bl)
     Charge = 0;
     Residue = NULL;
     TrajIndex = -1;
+    DMoveSet = false;
 }
 
 //------------------------------------------------------------------------------
@@ -977,6 +978,35 @@ void CAtom::ChangeParent(CAtomList* p_newparent)
     GetAtoms()->EmitOnAtomListChanged();
     // inform object designers
     emit OnStatusChanged(ESC_PARENT);
+}
+
+//==============================================================================
+//------------------------------------------------------------------------------
+//==============================================================================
+
+void CAtom::SetManipDMove(const CPoint& dmov)
+{
+   DMove += dmov;
+   DMoveSet = true;
+}
+
+//------------------------------------------------------------------------------
+
+bool CAtom::IsManipDMoved(void)
+{
+    bool mset = DMoveSet;
+    return(mset);
+}
+
+//------------------------------------------------------------------------------
+
+const CPoint CAtom::GetManipDMove(void)
+{
+    static CPoint zero;
+    CPoint dmov = DMove;
+    DMove = zero;
+    DMoveSet = false;
+    return(dmov);
 }
 
 //==============================================================================
