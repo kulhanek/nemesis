@@ -228,6 +228,9 @@ void CProjectStatusBar::UpdateStatus(void)
             SecondaryDriverLabel->setPixmap(QIcon(":/images/NemesisCore/project/ProjectStatusBar/SecondaryDriver.svg").pixmap(SB_ICON_SIZE,QIcon::Normal));
             SecondaryDriverLabel->setToolTip(tr("Secondary manipulator"));
             break;
+        case EMD_ATOM_MANIP_RELAX:
+            // FIXME
+            break;
         case EMD_ATOM_MANIP:
             SecondaryDriverLabel->setPixmap(QIcon(":/images/NemesisCore/project/ProjectStatusBar/AtomManipulation.svg").pixmap(SB_ICON_SIZE,QIcon::Normal));
             SecondaryDriverLabel->setToolTip(tr("Atom manipulator"));

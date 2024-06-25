@@ -35,12 +35,12 @@
 #include <WorkPanelDialogWidget.hpp>
 #include <WorkPanelDockWidget.hpp>
 
-#include <QDesktopWidget>
 #include <QSplitter>
 #include <QHeaderView>
 #include <QTreeView>
 #include <QApplication>
 #include <QVBoxLayout>
+#include <QScreen>
 
 using namespace  std;
 
@@ -288,13 +288,12 @@ void CWorkPanel::LoadWorkPanelSetup(CXMLElement* p_ele)
 
         // no position or dimmension -> center to desktop center
         // size 1/4 of desktop size
-        QDesktopWidget* p_dw = QApplication::desktop();
 
         QRect sc;
         if( p_mainwin ){
-            sc = p_dw->availableGeometry(p_mainwin);
+            sc = p_mainwin->screen()->availableGeometry();
         } else {
-            sc = p_dw->availableGeometry(p_dw->primaryScreen());
+            sc = QGuiApplication::primaryScreen()->availableGeometry();
         }
 
         // sanity check

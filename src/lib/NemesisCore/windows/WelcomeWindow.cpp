@@ -22,9 +22,9 @@
 
 #include "WelcomeWindow.hpp"
 
-#include <QDesktopWidget>
 #include <QThread>
 #include <QTimer>
+#include <QScreen>
 
 //==============================================================================
 //------------------------------------------------------------------------------
@@ -53,8 +53,7 @@ CWelcomeWindow::CWelcomeWindow(void)
 
     // place welcome window to the midle of the primary screen
     // get the available size of primary screen
-    QDesktopWidget* desktop_widget = QApplication::desktop();
-    QRect available_desktop = desktop_widget->availableGeometry( desktop_widget->primaryScreen () );
+    QRect available_desktop = QGuiApplication::primaryScreen()->availableGeometry();
 
     // set position to middle
     // void setGeometry ( int x, int y, int w, int h )

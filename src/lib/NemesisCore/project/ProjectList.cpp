@@ -38,7 +38,6 @@
 
 #include <QMessageBox>
 #include <QFileDialog>
-#include <QDesktopWidget>
 #include <QApplication>
 #include <QStyle>
 #include <QStyleOptionTitleBar>

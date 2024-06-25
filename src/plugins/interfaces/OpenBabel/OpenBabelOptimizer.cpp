@@ -138,7 +138,9 @@ bool COpenBabelOptimizer::InitializationStep(void)
     }
 
     if( OBForceField->Setup(OBMol,con) == false) {
-        ES_ERROR("unable to setup molecule");
+        QString err = "unable to set molecule in OpenBabel (check topology and unusual connectivity)";
+        Structure->GetProject()->TextNotification(ETNT_ERROR,err,2000);
+        ES_ERROR("unable to set molecule in OpenBabel");
         return(false);
     }
 

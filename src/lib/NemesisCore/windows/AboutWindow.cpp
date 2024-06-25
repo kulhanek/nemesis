@@ -22,8 +22,7 @@
 
 #include "AboutWindow.hpp"
 #include <NemesisCoreMainHeader.hpp>
-
-#include <QDesktopWidget>
+#include <QScreen>
 
 //==============================================================================
 //------------------------------------------------------------------------------
@@ -66,8 +65,7 @@ CAboutWindow::CAboutWindow(void)
     setAttribute(Qt::WA_DeleteOnClose);
     setModal(true);
 
-    QDesktopWidget* desktop_widget = QApplication::desktop();
-    QRect available_desktop = desktop_widget->availableGeometry( desktop_widget->primaryScreen () );
+    QRect available_desktop = QGuiApplication::primaryScreen()->availableGeometry();
 
     // set position to middle
     // void setGeometry ( int x, int y, int w, int h )

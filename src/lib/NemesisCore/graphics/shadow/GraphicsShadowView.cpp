@@ -35,9 +35,9 @@
 #include <GraphicsShadowCtrlNotice.hpp>
 #include <NemesisCoreModule.hpp>
 #include <QGraphicsItem>
-#include <QDesktopWidget>
 #include <GraphicsSetupProfile.hpp>
 #include <GraphicsCommonGLScene.hpp>
+#include <QScreen>
 
 #include <GraphicsShadowView.hpp>
 
@@ -499,8 +499,7 @@ void CGraphicsShadowView::LoadShadowSetupMain(CXMLElement* p_ele)
     } else {
         // no position or dimmension -> center to desktop center
         // size 1/4 of desktop size
-        QDesktopWidget* p_dw = QApplication::desktop();
-        QRect sc = p_dw->screenGeometry(p_mainwin);
+        QRect sc = p_mainwin->screen()->availableGeometry();
         int l,t;
         l = (sc.width() - width())/2;
         t = (sc.height() - height())/2;

@@ -28,13 +28,13 @@
 #include <XMLElement.hpp>
 #include <ErrorSystem.hpp>
 #include <QTabWidget>
-#include <QDesktopWidget>
 #include <QSplitter>
 #include <QTreeView>
 #include <QApplication>
 #include <QHeaderView>
 #include <QContextMenuEvent>
 #include <QMessageBox>
+#include <QScreen>
 
 #if defined _WIN32 || defined __CYGWIN__
 #undef GetObject
@@ -211,12 +211,11 @@ void CExtComObjectDesigner::LoadObjectDesignerSetup(CXMLElement* p_ele)
 
         // no position or dimmension -> center to desktop center
         // size 1/4 of desktop size
-        QDesktopWidget* p_dw = QApplication::desktop();
         QRect sc;
         if( GetMainWindow() ){
-            sc = p_dw->availableGeometry(GetMainWindow());
+            sc = GetMainWindow()->screen()->availableGeometry();
         } else {
-            sc = p_dw->availableGeometry(p_dw->primaryScreen());
+            sc = QGuiApplication::primaryScreen()->availableGeometry();
         }
         // sanity check
         if( w <= 0 ) w = 200;

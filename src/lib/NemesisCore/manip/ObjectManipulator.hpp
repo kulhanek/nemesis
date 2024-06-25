@@ -22,7 +22,7 @@
 
 #include <NemesisCoreMainHeader.hpp>
 #include <Manipulator.hpp>
-#include <QTime>
+#include <QElapsedTimer>
 
 //------------------------------------------------------------------------------
 
@@ -53,8 +53,8 @@ public:
 
 // section of private data -----------------------------------------------------
 private:
-    QTime   Time;
-    bool    EventRaised;
+    QElapsedTimer   Time;
+    bool            EventRaised;
 };
 
 //------------------------------------------------------------------------------

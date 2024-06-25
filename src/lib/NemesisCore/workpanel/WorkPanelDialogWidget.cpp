@@ -21,8 +21,8 @@
 #include <WorkPanelDialogWidget.hpp>
 #include <WorkPanel.hpp>
 #include <iostream>
-#include <QDesktopWidget>
 #include <QApplication>
+#include <QScreen>
 
 using namespace  std;
 
@@ -50,7 +50,7 @@ QByteArray CWorkPanelDialogWidget::saveGeometry(void) const
            << majorVersion
            << minorVersion
            << geometry()
-           << qint32(QApplication::desktop()->screenNumber(this));
+           << screen()->serialNumber();
     return array;
 }
 
@@ -79,16 +79,18 @@ bool CWorkPanelDialogWidget::restoreGeometry(const QByteArray &geometry)
     // (Allow all minor versions.)
 
     QRect   restoredGeometry;
-    qint32  restoredScreenNumber;
+    QString restoredScreenNumber;
 
     stream >> restoredGeometry
            >> restoredScreenNumber;
 
-    const QDesktopWidget * const desktop = QApplication::desktop();
-    if (restoredScreenNumber >= desktop->numScreens())
-        restoredScreenNumber = desktop->primaryScreen();
+   QRect availableGeometry = QGuiApplication::primaryScreen()->availableGeometry();
 
-    const QRect availableGeometry = desktop->availableGeometry(restoredScreenNumber);
+    foreach(QScreen* p_scr, QGuiApplication::screens()){
+        if( p_scr->serialNumber() == restoredScreenNumber ){
+            availableGeometry = p_scr->availableGeometry();
+        }
+    }
 
     // Modify the restored geometry if we are about to restore to coordinates
     // that would make the window "lost".

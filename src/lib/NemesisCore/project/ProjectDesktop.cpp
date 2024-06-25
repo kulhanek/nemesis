@@ -26,7 +26,6 @@
 #include <ErrorSystem.hpp>
 #include <GlobalSetup.hpp>
 #include <PluginDatabase.hpp>
-#include <QDesktopWidget>
 #include <QApplication>
 #include <QMessageBox>
 #include <WorkPanel.hpp>
