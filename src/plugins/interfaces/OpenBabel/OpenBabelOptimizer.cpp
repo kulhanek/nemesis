@@ -37,6 +37,7 @@
 #include <PhysicalQuantity.hpp>
 
 #include "openbabel/obconversion.h"
+#include "openbabel/obiter.h"
 
 using namespace std;
 using namespace OpenBabel;
@@ -95,6 +96,8 @@ bool COpenBabelOptimizer::InitializationStep(void)
         return(false);
     }
 
+    TotalCharge = 0;
+
     // convert to open babel ------------------------
     COpenBabelUtils::Nemesis2OpenBabel(Structure,OBMol);
 
@@ -123,6 +126,27 @@ bool COpenBabelOptimizer::InitializationStep(void)
     OBForceField->SetVDWCutOff(GetSetup()->vdwCutoff);
     OBForceField->SetElectrostaticCutOff(GetSetup()->eleCutoff);
 
+    // setup partial atomic charges
+    ChargeMethod = OBChargeModel::FindType(CSmallString(GetSetup()->ChargeMethod));
+    if( ChargeMethod->ComputeCharges(OBMol) ) {
+        std::vector<double> partialCharges;
+        partialCharges = ChargeMethod->GetPartialCharges();
+
+        OBMol.SetAutomaticPartialCharge(false);
+        OBMol.SetPartialChargesPerceived(false);
+        int i = 0;
+        // double total = 0;
+        FOR_ATOMS_OF_MOL(p_atom, OBMol) {
+            // cout << i << " , " << p_atom->GetAtomicNum() << " " << partialCharges[i] << endl;
+            // total += partialCharges[i];
+            p_atom->SetPartialCharge(partialCharges[i]);
+            i++;
+        }
+        // cout << "total: " << total << " | " << OBMol.GetTotalCharge() << endl;
+        OBMol.SetPartialChargesPerceived(true);
+    } else {
+        Structure->GetProject()->TextNotification(ETNT_ERROR,"unable to setup partial atomic charges",ETNT_ERROR_DELAY);
+    }
 
     // prepare constraints
     OBFFConstraints con;
@@ -142,6 +166,10 @@ bool COpenBabelOptimizer::InitializationStep(void)
         Structure->GetProject()->TextNotification(ETNT_ERROR,err,2000);
         ES_ERROR("unable to set molecule in OpenBabel");
         return(false);
+    }
+
+    FOR_ATOMS_OF_MOL(p_atom, OBMol) {
+        TotalCharge += p_atom->GetPartialCharge();
     }
 
     // prepare restraints
@@ -261,7 +289,7 @@ const QString COpenBabelOptimizer::GetStepDescription(bool final)
     } else {
         text += tr("n.d.");
     }
-    text += QString(" " ) + PQ_ENERGY->GetUnitName();
+    text += QString(" ") + PQ_ENERGY->GetUnitName();
 
     if( final ){
         text += tr("; Number of steps: ");
@@ -271,6 +299,8 @@ const QString COpenBabelOptimizer::GetStepDescription(bool final)
             text += QString().setNum(0);
         }
     }
+
+    text += QString(" | Total charge: ") + QString::number(TotalCharge, 'f', 2);
 
     return(text);
 }

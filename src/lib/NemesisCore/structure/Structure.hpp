@@ -96,6 +96,9 @@ public:
     /// set sequence index
     bool SetSeqIndexWH(int seqidx);
 
+    /// set total charge
+    bool SetTotalChargeWH(int charge);
+
 // informational methods -------------------------------------------------------
     /// get base list
     CStructureList* GetStructures(void) const;
@@ -123,6 +126,9 @@ public:
 
     /// get sequence index
     int GetSeqIndex(void) const;
+
+    /// get total charge
+    int GetTotalCharge(void) const;
 
 // executive methods  ----------------------------------------------------------
     /// delete entire molecule contents
@@ -162,6 +168,9 @@ public:
 
     /// set sequential index
     void SetSeqIndex(int seqidx,CHistoryNode* p_history=NULL);
+
+    /// set total charge
+    void SetTotalCharge(int charge,CHistoryNode* p_history=NULL);
 
 //------------------------------------------------------------------------------
     /// set box parameters
@@ -227,6 +236,7 @@ private:
     CResidueList*       Residues;
     CRestraintList*     Restraints;
     CTrajectory*        Trajectory;
+    int                 TotalCharge;
     int                 SeqIndex;
     int                 GeometryUpdateLevel;
     QMap<int,CAtom*>    TrajIndexMap;

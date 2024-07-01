@@ -25,6 +25,7 @@
 #include <Optimizer.hpp>
 #include <openbabel/mol.h>
 #include <openbabel/forcefield.h>
+#include <openbabel/chargemodel.h>
 #include <Vector.hpp>
 #include <QHash>
 #include <Atom.hpp>
@@ -58,10 +59,12 @@ public:
 private:
     OpenBabel::OBMol            OBMol;
     OpenBabel::OBForceField*    OBForceField;
+    OpenBabel::OBChargeModel*   ChargeMethod;
     int                         Step;
     double                      RestraintEnergy;
     CVector                     RestraintGradients;
     QHash<CAtom*,int>           AtomMap;
+    double                      TotalCharge;
 
     /// get optimizer setup
     COpenBabelOptimizerSetup*   GetSetup(void);

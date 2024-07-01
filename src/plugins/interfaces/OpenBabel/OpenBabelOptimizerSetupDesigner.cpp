@@ -91,6 +91,24 @@ COpenBabelOptimizerSetupDesigner::COpenBabelOptimizerSetupDesigner(COpenBabelOpt
         it++;
     }
 
+    // list available charge methods ---------------
+    vector<string> chrgmethods;
+    OBPlugin::ListAsVector("charges",NULL,chrgmethods);
+
+    it = chrgmethods.begin();
+    ie = chrgmethods.end();
+
+    while( it != ie ){
+        vector<string> keys;
+        split(keys,*it, is_any_of(" "), token_compress_on);
+        it++;
+        if( keys.size() > 0 ){
+            if( keys[0] == "fromfile" ) continue;
+            if( keys[0] == "none" ) continue;
+            WidgetUI.chargeMethodCB->addItem(keys[0].c_str());
+        }
+    }
+
     // units -------------------------------------
     WidgetUI.eelCutoffSB->setPhysicalQuantity(PQ_DISTANCE);
     WidgetUI.evdwCutoffSB->setPhysicalQuantity(PQ_DISTANCE);
@@ -100,6 +118,9 @@ COpenBabelOptimizerSetupDesigner::COpenBabelOptimizerSetupDesigner(COpenBabelOpt
             this,SLOT(SetChangedFlagTrue()));
     // ----------------
     connect(WidgetUI.forceFieldCB, SIGNAL(currentIndexChanged(int)),
+            this,SLOT(SetChangedFlagTrue()));
+    // ----------------
+    connect(WidgetUI.chargeMethodCB, SIGNAL(currentIndexChanged(int)),
             this,SLOT(SetChangedFlagTrue()));
     // ----------------
     connect(WidgetUI.maxStepsSB, SIGNAL(valueChanged(int)),
@@ -148,6 +169,24 @@ void COpenBabelOptimizerSetupDesigner::InitValues(void)
         }
     }
 
+    WidgetUI.chargeMethodCB->setCurrentIndex(-1);
+    for(int i=0; i < WidgetUI.chargeMethodCB->count(); i++ ){
+        if( Object->ChargeMethod == WidgetUI.chargeMethodCB->itemText(i) ){
+            WidgetUI.chargeMethodCB->setCurrentIndex(i);
+            break;
+        }
+    }
+    if( WidgetUI.chargeMethodCB->currentIndex() == -1 ){
+        // try again with gasteiger as default
+        Object->ChargeMethod = "gasteiger";
+        for(int i=0; i < WidgetUI.chargeMethodCB->count(); i++ ){
+            if( Object->ChargeMethod == WidgetUI.chargeMethodCB->itemText(i) ){
+                WidgetUI.chargeMethodCB->setCurrentIndex(i);
+                break;
+            }
+        }
+    }
+
     WidgetUI.maxStepsSB->setValue(Object->MaxSteps);
     WidgetUI.stepsPerUpdateSB->setValue(Object->StepsPerUpdate);
     WidgetUI.termCriteriumSB->setValue(Object->TermCrit);
@@ -170,6 +209,7 @@ void COpenBabelOptimizerSetupDesigner::ApplyValues(void)
 
     Object->SetName(WidgetUI.nameLE->text());
     Object->ForceFieldName = WidgetUI.forceFieldCB->currentText();
+    Object->ChargeMethod = WidgetUI.chargeMethodCB->currentText();
     Object->MaxSteps = WidgetUI.maxStepsSB->value();
     Object->StepsPerUpdate = WidgetUI.stepsPerUpdateSB->value();
     Object->TermCrit = WidgetUI.termCriteriumSB->value();

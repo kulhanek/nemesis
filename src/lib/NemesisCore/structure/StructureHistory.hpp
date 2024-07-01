@@ -160,4 +160,35 @@ private:
 //------------------------------------------------------------------------------
 //==============================================================================
 
+class CStructureTotalChargeHI : public CHistoryItem {
+public:
+// constructors and destructors ------------------------------------------------
+    CStructureTotalChargeHI(CProject* p_object);
+    CStructureTotalChargeHI(CStructure* p_res,int newTotalCharge);
+
+// section of private data -----------------------------------------------------
+private:
+    int StructureIndex;
+    int NewTotalCharge;
+    int OldTotalCharge;
+
+// executive methods -----------------------------------------------------------
+    /// perform the change in the forward direction
+    virtual void Forward(void);
+
+    /// perform the change in the backward direction
+    virtual void Backward(void);
+
+// input/output methods --------------------------------------------------------
+    /// load data
+    virtual void LoadData(CXMLElement* p_ele);
+
+    /// save data
+    virtual void SaveData(CXMLElement* p_ele);
+};
+
+//==============================================================================
+//------------------------------------------------------------------------------
+//==============================================================================
+
 #endif

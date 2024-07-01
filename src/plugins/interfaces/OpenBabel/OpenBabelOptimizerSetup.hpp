@@ -57,6 +57,7 @@ public:
 // section of private data ----------------------------------------------------
 private:
     QString                 ForceFieldName;
+    QString                 ChargeMethod;
     EOBOptimizationMethod   OptimizationMethod;
     int                     MaxSteps;
     int                     StepsPerUpdate;

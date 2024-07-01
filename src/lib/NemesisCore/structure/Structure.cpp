@@ -72,6 +72,7 @@ CStructure::CStructure(CStructureList* p_list)
 
     GeometryUpdateLevel=0;
     SeqIndex = 1;
+    TotalCharge = 0;
 }
 
 //------------------------------------------------------------------------------
@@ -89,6 +90,7 @@ CStructure::CStructure(CProject* p_project)
 
     GeometryUpdateLevel=0;
     SeqIndex = 1;
+    TotalCharge = 0;
 }
 
 //------------------------------------------------------------------------------
@@ -572,6 +574,21 @@ bool CStructure::SetSeqIndexWH(int seqidx)
     return(true);
 }
 
+//------------------------------------------------------------------------------
+
+bool CStructure::SetTotalChargeWH(int charge)
+{
+    if( GetTotalCharge() == charge ) return(true);
+
+    CHistoryNode* p_history = BeginChangeWH(EHCL_TOPOLOGY,"structure total charge");
+    if( p_history == NULL ) return (false);
+
+    SetTotalCharge(charge,p_history);
+
+    EndChangeWH();
+    return(true);
+}
+
 //==============================================================================
 //------------------------------------------------------------------------------
 //==============================================================================
@@ -605,6 +622,13 @@ const QString CStructure::GetSMILES(void)
 int CStructure::GetSeqIndex(void) const
 {
     return(SeqIndex);
+}
+
+//------------------------------------------------------------------------------
+
+int CStructure::GetTotalCharge(void) const
+{
+    return(TotalCharge);
 }
 
 //==============================================================================
@@ -693,6 +717,22 @@ void CStructure::SetSeqIndex(int seqidx,CHistoryNode* p_history)
     GetStructures()->ForceSorting = true;
     GetStructures()->EmitOnStructureListChanged();
     GetStructures()->EndUpdate();
+}
+
+//------------------------------------------------------------------------------
+
+void CStructure::SetTotalCharge(int charge,CHistoryNode* p_history)
+{
+    if( TotalCharge == charge ) return;
+
+    GetStructures()->BeginUpdate();
+    if( p_history ){
+        CStructureTotalChargeHI* p_item = new CStructureTotalChargeHI(this,charge);
+        p_history->Register(p_item);
+    }
+
+    TotalCharge = charge;
+    emit OnStatusChanged(ESC_OTHER);
 }
 
 //------------------------------------------------------------------------------
@@ -1038,6 +1078,9 @@ void CStructure::LoadData(CXMLElement* p_ele)
     // load object info -----------------------------
     CProObject::LoadData(p_ele);
 
+    // total charge
+    p_ele->GetAttribute("totchrg",TotalCharge);
+
     // get seq index
     p_ele->GetAttribute("seqidx",SeqIndex);
 
@@ -1082,6 +1125,12 @@ void CStructure::SaveData(CXMLElement* p_ele)
 
     // save object info -----------------------------
     CProObject::SaveData(p_ele);
+
+    // total charge
+    p_ele->GetAttribute("totchrg",TotalCharge);
+
+    // total charge
+    p_ele->SetAttribute("totchrg",TotalCharge);
 
     // get seq index
     p_ele->SetAttribute("seqidx",SeqIndex);
@@ -1161,6 +1210,9 @@ void CStructure::SaveStructureData(CXMLElement* p_ele,bool selected)
 
     // save object info -----------------------------
     CProObject::SaveData(p_ele);
+
+    // total charge
+    p_ele->SetAttribute("totchrg",TotalCharge);
 
     // save sequential index
     p_ele->SetAttribute("seqidx",SeqIndex);

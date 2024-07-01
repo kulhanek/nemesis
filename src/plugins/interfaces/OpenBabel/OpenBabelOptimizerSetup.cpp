@@ -59,7 +59,8 @@ COpenBabelOptimizerSetup::COpenBabelOptimizerSetup(CExtComObject* p_parent)
     : COptimizerSetup(&OpenBabelOptimizerSetupObject,p_parent)
 {
     ForceFieldName = "UFF";
-    MaxSteps = 2500;
+    ChargeMethod = "gasteiger";
+    MaxSteps = 5000;
     StepsPerUpdate = 10;
     TermCrit = 1e-4;
 
@@ -108,6 +109,7 @@ void COpenBabelOptimizerSetup::LoadData(CXMLElement* p_ele)
 
     // load custom setup
     p_ele->GetAttribute("ForceFieldName",ForceFieldName);
+    p_ele->GetAttribute("ChargeMethod",ChargeMethod);
     p_ele->GetAttribute("MaxSteps",MaxSteps);
     p_ele->GetAttribute("StepsPerUpdate",StepsPerUpdate);
     p_ele->GetAttribute("TermCrit",TermCrit);
@@ -131,6 +133,7 @@ void COpenBabelOptimizerSetup::SaveData(CXMLElement* p_ele)
 
     // save custom setup
     p_ele->SetAttribute("ForceFieldName",ForceFieldName);
+    p_ele->SetAttribute("ChargeMethod",ChargeMethod);
     p_ele->SetAttribute("MaxSteps",MaxSteps);
     p_ele->SetAttribute("StepsPerUpdate",StepsPerUpdate);
     p_ele->SetAttribute("TermCrit",TermCrit);

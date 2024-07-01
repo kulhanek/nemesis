@@ -38,6 +38,8 @@ REGISTER_HISTORY_OBJECT(NemesisCorePlugin,StructureUpdateHI,
                         "{STRU:31a676a2-1737-4fc1-baa3-65f3fad242b1}")
 REGISTER_HISTORY_OBJECT(NemesisCorePlugin,StructureSeqIndexHI,
                         "{STRSI:1881c6cc-1dc8-4c47-8176-c1ad165f78c4}")
+REGISTER_HISTORY_OBJECT(NemesisCorePlugin,StructureTotalChargeHI,
+                        "{STRTC:027cb53d-71fb-47c4-ba41-2cfed39a9474}")
 
 //==============================================================================
 //------------------------------------------------------------------------------
@@ -360,6 +362,72 @@ void CStructureSeqIndexHI::SaveData(CXMLElement* p_ele)
     p_ele->SetAttribute("ri",StructureIndex);
     p_ele->SetAttribute("ns",NewSeqIndex);
     p_ele->SetAttribute("os",OldSeqIndex);
+}
+
+//==============================================================================
+//------------------------------------------------------------------------------
+//==============================================================================
+
+CStructureTotalChargeHI::CStructureTotalChargeHI(CStructure* p_res,int newTotalCharge)
+    : CHistoryItem(&StructureTotalChargeHIObject,p_res->GetProject(),EHID_FORWARD)
+{
+    StructureIndex = p_res->GetIndex();
+    OldTotalCharge = p_res->GetTotalCharge();
+    NewTotalCharge = newTotalCharge;
+}
+
+//------------------------------------------------------------------------------
+
+void CStructureTotalChargeHI::Forward(void)
+{
+    CStructure* p_res = dynamic_cast<CStructure*>(GetProject()->FindObject(StructureIndex));
+    if(p_res == NULL) return;
+
+    p_res->SetTotalCharge(NewTotalCharge);
+}
+
+//------------------------------------------------------------------------------
+
+void CStructureTotalChargeHI::Backward(void)
+{
+    CStructure* p_res = dynamic_cast<CStructure*>(GetProject()->FindObject(StructureIndex));
+    if(p_res == NULL) return;
+
+    p_res->SetTotalCharge(OldTotalCharge);
+}
+
+//------------------------------------------------------------------------------
+
+void CStructureTotalChargeHI::LoadData(CXMLElement* p_ele)
+{
+    if( p_ele == NULL ){
+        INVALID_ARGUMENT("p_ele is NULL");
+    }
+
+    // load core data ----------------------------
+    CHistoryItem::LoadData(p_ele);
+
+    // load local data ---------------------------
+    p_ele->GetAttribute("ri",StructureIndex);
+    p_ele->GetAttribute("nc",NewTotalCharge);
+    p_ele->GetAttribute("oc",OldTotalCharge);
+}
+
+//------------------------------------------------------------------------------
+
+void CStructureTotalChargeHI::SaveData(CXMLElement* p_ele)
+{
+    if( p_ele == NULL ){
+        INVALID_ARGUMENT("p_ele is NULL");
+    }
+
+    // save core data ----------------------------
+    CHistoryItem::SaveData(p_ele);
+
+    // save local data ---------------------------
+    p_ele->SetAttribute("ri",StructureIndex);
+    p_ele->SetAttribute("nc",NewTotalCharge);
+    p_ele->SetAttribute("oc",OldTotalCharge);
 }
 
 //==============================================================================

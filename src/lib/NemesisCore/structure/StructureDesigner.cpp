@@ -176,6 +176,8 @@ CStructureDesigner::CStructureDesigner(CStructure* p_str)
     }
 
     // change events -----------------------------
+    connect(WidgetUI.totalChargeSB, SIGNAL(valueChanged(int)),
+            this, SLOT(SetChangedFlagTrue()));
     connect(WidgetUI.seqIndexSB, SIGNAL(valueChanged(int)),
             this, SLOT(SetChangedFlagTrue()));
     connect(WidgetUI.trajectoryLO, SIGNAL(OnObjectChanged(void)),
@@ -350,6 +352,7 @@ void CStructureDesigner::InitValues(void)
 {
     if( IsItChangingContent() ) return;
 
+    WidgetUI.totalChargeSB->setValue(Object->GetTotalCharge());
     WidgetUI.seqIndexSB->setValue(Object->GetSeqIndex());
     WidgetUI.trajectoryLO->setObject(Object->GetTrajectory());
 
@@ -401,6 +404,7 @@ void CStructureDesigner::InitValues(void)
 
 void CStructureDesigner::ApplyValues(void)
 {
+    Object->SetTotalCharge(WidgetUI.totalChargeSB->value());
     Object->SetSeqIndexWH(WidgetUI.seqIndexSB->value());
     Object->SetTrajectoryWH(WidgetUI.trajectoryLO->getObject<CTrajectory*>());
 

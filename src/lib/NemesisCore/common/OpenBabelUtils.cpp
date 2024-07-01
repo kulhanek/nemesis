@@ -103,6 +103,9 @@ void COpenBabelUtils::Nemesis2OpenBabel(CStructure* p_mol,OpenBabel::OBMol& obmo
         // create bond
         obmol.AddBond(ob_a1_id, ob_a2_id, order);
     }
+
+    // set charge
+    obmol.SetTotalCharge(p_mol->GetTotalCharge());
 }
 
 //==============================================================================
