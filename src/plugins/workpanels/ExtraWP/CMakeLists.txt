@@ -13,6 +13,7 @@ SET(EXTRA_WP_SRC
         StructureInternalGeometry.cpp
         StructurePaletteWorkPanel.cpp
         SuperCellBuilderWorkPanel.cpp
+        TotalChargeWorkPanel.cpp
         )
 
 # program windows --------------------------------------------------------------
@@ -24,6 +25,7 @@ SET(EXTRA_WP_UIS
         StructureInternalGeometry.ui
         StructurePaletteWorkPanel.ui
         SuperCellBuilderWorkPanel.ui
+        TotalChargeWorkPanel.ui
         )
 
 # program resources ------------------------------------------------------------

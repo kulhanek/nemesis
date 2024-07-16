@@ -9,5 +9,6 @@
         <file>images/ExtraWP/ResidueListEditor.svg</file>
         <file>images/ExtraWP/StructurePaletteWP.svg</file>
         <file>images/ExtraWP/SuperCellBuilder.svg</file>
+        <file>images/ExtraWP/TotalChargeWP.svg</file>
     </qresource>
 </RCC>

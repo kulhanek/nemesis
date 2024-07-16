@@ -1391,3 +1391,8 @@ src/plugins/CATsProject/CATsProjectWindow.ui
 etc/plugins/definitions/CATsProject.plg
 src/plugins/CrystalTools/SuperCellBuilderWorkPanel.ui
 src/lib/NemesisCore/graphics/standard/PlaneObjectDesigner.ui
+src/plugins/workpanels/ExtraWP/TotalCharge.hpp
+src/plugins/workpanels/ExtraWP/TotalCharge.ui
+src/plugins/workpanels/ExtraWP/TotalChargeWorkPanel.cpp
+src/plugins/workpanels/ExtraWP/TotalChargeWorkPanel.hpp
+src/plugins/workpanels/ExtraWP/TotalChargeWorkPanel.ui

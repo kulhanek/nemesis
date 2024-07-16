@@ -201,6 +201,9 @@ void CBuildWorkPanel::LoadWorkPanelSpecificData(CXMLElement* p_ele)
     if( p_ele->GetAttribute("opt_preopt",bdummy) ){
         WidgetUI.preoptimizeCB->setChecked(bdummy);
     }
+    if( p_ele->GetAttribute("opt_manip_atoms",bdummy) ){
+        WidgetUI.manipAtomsCB->setChecked(bdummy);
+    }
 
     double ddummy = 0.0;
     if( p_ele->GetAttribute("opt_preopt_steps",ddummy) ){
@@ -219,6 +222,7 @@ void CBuildWorkPanel::SaveWorkPanelSpecificData(CXMLElement* p_ele)
     }
 
     p_ele->SetAttribute("opt_preopt",WidgetUI.preoptimizeCB->isChecked());
+    p_ele->SetAttribute("opt_manip_atoms",WidgetUI.manipAtomsCB->isChecked());
     p_ele->SetAttribute("opt_preopt_steps",WidgetUI.preoptStepsSB->value());
 
     CWorkPanel::SaveWorkPanelSpecificData(p_ele);

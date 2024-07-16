@@ -14,6 +14,7 @@
     <workpanel uuid="{PERIODIC_TABLE_WORK_PANEL:843f334f-db10-460b-8ea2-bca948d9afd9}"/>
     <workpanel uuid="{JOB_WORK_PANEL:69932eda-d93f-4dda-ae40-4695da5dda96}"/>
     <workpanel uuid="{AUTO_ROTATE_WP:751acdb4-1309-41a3-a4fe-92b53fa38180}"/>
+    <workpanel uuid="{TOTAL_CHARGE_WP:079979e4-d9f1-4163-909d-2183a1971d21}"/>
     <separator/>
     <menu name="Controls">
         <workpanel uuid="{ERROR_CONSOLE_WORK_PANEL:7dc0630c-19e5-48bc-9130-904cc8640900}"/>
