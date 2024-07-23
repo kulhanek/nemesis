@@ -52,6 +52,8 @@
 
 #include <queue>
 
+#include <openbabel/obfunctions.h>
+
 using namespace std;
 
 //==============================================================================
@@ -114,10 +116,17 @@ bool CAtomList::AddHydrogensWH(bool polar_only)
     OpenBabel::OBMol obmol;
     COpenBabelUtils::Nemesis2OpenBabel(GetStructure(),obmol,true);
 
+    // assign typical number of implicit hydrogens
+    obmol.SetHydrogensAdded(false);
+    for(unsigned int i= 1; i <= obmol.NumAtoms(); i++) {
+        OpenBabel::OBAtom* p_obatom = obmol.GetAtom(i);
+        OpenBabel::OBAtomAssignTypicalImplicitHydrogens(p_obatom);
+    }
+
     unsigned int top_atom = obmol.NumAtoms();
 
     // newly added atoms are added to the end of molecule
-    obmol.AddHydrogens(polar_only);
+    obmol.AddHydrogens(polar_only,false);
 
     BeginUpdate(); // essential - disable sorting
 
@@ -833,6 +842,13 @@ CAtom* CAtomList::CreateAtom(int Z,const CPoint& pos,CHistoryNode* p_history)
     CAtom* p_at = new CAtom(this);
     p_at->SetZ(Z);
     p_at->SetPos(pos);
+
+    if( p_at->GetName().isEmpty() ) {
+        QString name = "%1%2";
+        name = name.arg(PeriodicTable.GetSymbol(p_at->GetZ()));
+        name = name.arg(TopIndex.GetIndex());
+        p_at->SetName(name);
+    }
 
     if( p_history != NULL ) {
         CAtomHI* p_atomdata = new CAtomHI(p_at,EHID_FORWARD);
