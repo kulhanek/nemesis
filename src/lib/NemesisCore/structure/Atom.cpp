@@ -448,6 +448,11 @@ bool CAtom::AddValenceWH(void)
     // add atom
     CAtom* p_natm = GetAtoms()->CreateAtom(1,ocog,p_history);
 
+    // add atom to the same residue
+    if( GetResidue() != NULL ) {
+        GetResidue()->AddAtom(p_natm,p_history);
+    }
+
     // and bond
     GetStructure()->GetBonds()->CreateBond(this,p_natm,BO_SINGLE,p_history);
 
