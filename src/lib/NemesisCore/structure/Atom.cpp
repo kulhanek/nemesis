@@ -451,6 +451,20 @@ bool CAtom::AddValenceWH(void)
     // add atom to the same residue
     if( GetResidue() != NULL ) {
         GetResidue()->AddAtom(p_natm,p_history);
+        int lidx = GetResidue()->GetTopLocalIndex();
+        lidx++;
+        p_natm->SetLocIndex(lidx,p_history);
+    }
+
+    if( GetAtoms() != NULL ){
+        int sidx = GetAtoms()->GetTopSerIndex();
+        p_natm->SetSerIndex(sidx,p_history);
+    }
+
+    if( GetAtoms() != NULL ){
+        int sidx = GetAtoms()->GetTopSerIndex();
+        sidx++;
+        p_natm->SetSerIndex(sidx,p_history);
     }
 
     // and bond
