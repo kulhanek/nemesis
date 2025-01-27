@@ -458,11 +458,6 @@ bool CAtom::AddValenceWH(void)
 
     if( GetAtoms() != NULL ){
         int sidx = GetAtoms()->GetTopSerIndex();
-        p_natm->SetSerIndex(sidx,p_history);
-    }
-
-    if( GetAtoms() != NULL ){
-        int sidx = GetAtoms()->GetTopSerIndex();
         sidx++;
         p_natm->SetSerIndex(sidx,p_history);
     }
