@@ -7,7 +7,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.1 FATAL_ERROR)
 
 # define project name ----------------------------------------------------------
 PROJECT(NEMESIS)
-SET(NEMESIS_VERSION 24.x)
+SET(NEMESIS_VERSION 25.x)
 
 # what languages we use --------------------------------------------------------
 ENABLE_LANGUAGE(C)
@@ -74,7 +74,7 @@ LINK_DIRECTORIES(${ASL_ROOT}/lib)
 SET(ASL_LIB_NAME asl)
 
 # OpenBabel --------------------------------------
-SET(OPEN_BABEL_ROOT ${DEVELOPMENT_ROOT}/thirdparty/obcore/3.1.1)
+SET(OPEN_BABEL_ROOT ${DEVELOPMENT_ROOT}/thirdparty/obcore/x2025-01)
 INCLUDE_DIRECTORIES(${OPEN_BABEL_ROOT}/include)
 LINK_DIRECTORIES(${OPEN_BABEL_ROOT}/lib)
 SET(OPEN_BABEL_LIB obcore)

@@ -11,10 +11,10 @@ GITHASH=`git rev-parse --short HEAD`
 DATE=`date +"%Y-%m-%d %H:%M"`
 
 cat > src/lib/NemesisCore/NemesisCoreMainHeaderConfig.hpp << EOF
-#define NEMESIS_VERSION        "24.${GITREVS}.${GITHASH}"
+#define NEMESIS_VERSION        "25.${GITREVS}.${GITHASH}"
 #define NEMESIS_BUILDTIME      "${DATE}"
 EOF
 
 echo ""
-echo "Nemesis Revision: 24.$GITREVS.$GITHASH ($DATE)"
+echo "Nemesis Revision: 25.$GITREVS.$GITHASH ($DATE)"
 
