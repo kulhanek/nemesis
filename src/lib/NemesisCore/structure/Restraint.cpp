@@ -328,7 +328,7 @@ double CRestraint::GetDeviationValue(void)
     if( Property == NULL ){
         return(0.0);
     }
-    return(Property->GetScalarValue()-TargetValue);
+    return(Property->GetScalarDeviation(TargetValue));
 }
 
 //------------------------------------------------------------------------------
@@ -370,10 +370,9 @@ double CRestraint::GetEnergy(QVector<CAtomGrad>& grads)
         grads.resize(0);
         return(0.0);
     }
-    double currentvalue = Property->GetGradient(grads);
+    double dv = Property->GetDeviationAndGradient(grads,TargetValue);
 
     // value
-    double dv = currentvalue - TargetValue;
     double ene = 0.5*ForceConstant*dv*dv;
     double deri = ForceConstant*dv;
 

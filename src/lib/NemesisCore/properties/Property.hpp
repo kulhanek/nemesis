@@ -106,8 +106,14 @@ public:
     /// get property value - scalar value
     virtual double GetScalarValue(void);
 
+    /// get property diviation from target_value - scalar value
+    virtual double GetScalarDeviation(double target_value);
+
     /// get property cartesian gradient and its value
     virtual double GetGradient(QVector<CAtomGrad>& grads);
+
+    /// get property cartesian gradient and its deviation
+    virtual double GetDeviationAndGradient(QVector<CAtomGrad>& grads,double target_value);
 
     /// set property value - scalar value (for trajectory update)
     virtual void SetScalarValue(double value);

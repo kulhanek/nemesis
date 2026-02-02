@@ -33,6 +33,7 @@
 #include <GeoPropertySetup.hpp>
 #include <GraphicsUtil.hpp>
 #include <ElementColorsList.hpp>
+#include <math.h>
 
 #if defined _WIN32 || defined __CYGWIN__
 #undef DrawText
@@ -165,59 +166,54 @@ double CTorsionProperty::GetScalarValue(void)
     CPoint dcom = PointD->GetCOM(dtotmass);
     if( dtotmass == 0.0 ) return(0.0);
 
-    double rijx = acom.x - bcom.x;
-    double rijy = acom.y - bcom.y;
-    double rijz = acom.z - bcom.z;
+    CPoint f,g,h;
 
-    double rkjx = ccom.x - bcom.x;
-    double rkjy = ccom.y - bcom.y;
-    double rkjz = ccom.z - bcom.z;
+    f = acom - bcom;
+    g = bcom - ccom;
+    h = dcom - ccom;
 
-    double rklx = ccom.x - dcom.x;
-    double rkly = ccom.y - dcom.y;
-    double rklz = ccom.z - dcom.z;
+    CPoint a,b;
 
-//    if( fenable_pbc ) then
-//        call pmf_pbc_image_vector3(rijx,rijy,rijz)
-//        call pmf_pbc_image_vector3(rkjx,rkjy,rkjz)
-//        call pmf_pbc_image_vector3(rklx,rkly,rklz)
-//    end if
+    a.x = f.y*g.z - f.z*g.y;
+    a.y = f.z*g.x - f.x*g.z;
+    a.z = f.x*g.y - f.y*g.x;
 
-//    ! coordinate definition
-//    !
-//    ! d = rij x rkj
-//    ! g = rkj x rkl
-//    !
-//    ! s1 = (rkjy*rklz - rkjz*rkly)*rijx + (rkjz*rklx - rkjx*rklz)*rijy + (rkjx*rkly - rkjy*rklx)*rijz
-//    !
-//    ! ksi = sign(s1)arccos(d.g/(|d|.|g|))
-//    !
+    b.x = h.y*g.z - h.z*g.y;
+    b.y = h.z*g.x - h.x*g.z;
+    b.z = h.x*g.y - h.y*g.x;
 
-//    ! d = rij x rkj
-    double dx = rijy*rkjz - rijz*rkjy;
-    double dy = rijz*rkjx - rijx*rkjz;
-    double dz = rijx*rkjy - rijy*rkjx;
+    double a2 = a.x*a.x + a.y*a.y + a.z*a.z;
+    double b2 = b.x*b.x + b.y*b.y + b.z*b.z;
 
-    double d2 = dx*dx + dy*dy + dz*dz;
-    if( d2 == 0 ) return(0.0);
+    //! calculate scp and value
+    double scp = (a.x*b.x+a.y*b.y+a.z*b.z)/sqrt(a2*b2);
 
-//    ! g = rkj x rkl
-    double gx = rkjy*rklz - rkjz*rkly;
-    double gy = rkjz*rklx - rkjx*rklz;
-    double gz = rkjx*rkly - rkjy*rklx;
-
-    double g2 = gx*gx + gy*gy + gz*gz;
-    if( g2 == 0 ) return(0.0);
-
-//    ! value of coordinate
-
-    double s1 = (rkjy*rklz - rkjz*rkly)*rijx + (rkjz*rklx - rkjx*rklz)*rijy + (rkjx*rkly - rkjy*rklx)*rijz;
-    double rt = (dx*gx + dy*gy + dz*gz)/sqrt(d2*g2);
-    if( rt < -1.0 ) rt = -1.0;
-    if( rt > 1.0 ) rt = 1.0;
-    double value = sgn<double>(s1)*acos( rt );
+    double value = 0.0;
+    if ( scp > 1.0 ) {
+        scp =  1.0;
+        value = acos (1.0); // ! const
+    } else if ( scp < -1.0 ) {
+        scp = -1.0;
+        value = acos (-1.0); // ! const
+    } else {
+        value = acos ( scp );
+    }
+    if( g.x*(a.y*b.z-a.z*b.y) +
+            g.y*(a.z*b.x-a.x*b.z) +
+            g.z*(a.x*b.y-a.y*b.x) > 0.0) {
+        value = -value;
+    }
 
     return(value);
+}
+
+//------------------------------------------------------------------------------
+
+double CTorsionProperty::GetScalarDeviation(double target_value)
+{
+    double val = GetScalarValue();
+    double dv = std::remainder(val - target_value, 2.0 * M_PI);
+    return(dv);
 }
 
 //------------------------------------------------------------------------------
@@ -225,109 +221,70 @@ double CTorsionProperty::GetScalarValue(void)
 double CTorsionProperty::GetGradient(QVector<CAtomGrad>& grads)
 {
     // point A
-    double atotmass;
+    double atotmass = 0.0;
     CPoint acom = PointA->GetCOM(atotmass);
     if( atotmass == 0.0 ) return(0.0);
 
     // point B
-    double btotmass;
+    double btotmass = 0.0;
     CPoint bcom = PointB->GetCOM(btotmass);
     if( btotmass == 0.0 ) return(0.0);
 
     // point C
-    double ctotmass;
+    double ctotmass = 0.0;
     CPoint ccom = PointC->GetCOM(ctotmass);
     if( ctotmass == 0.0 ) return(0.0);
 
     // point D
-    double dtotmass;
+    double dtotmass = 0.0;
     CPoint dcom = PointD->GetCOM(dtotmass);
     if( dtotmass == 0.0 ) return(0.0);
 
-    double rijx = acom.x - bcom.x;
-    double rijy = acom.y - bcom.y;
-    double rijz = acom.z - bcom.z;
+    CPoint f,g,h;
 
-    double rkjx = ccom.x - bcom.x;
-    double rkjy = ccom.y - bcom.y;
-    double rkjz = ccom.z - bcom.z;
+    f = acom - bcom;
+    g = bcom - ccom;
+    h = dcom - ccom;
 
-    double rklx = ccom.x - dcom.x;
-    double rkly = ccom.y - dcom.y;
-    double rklz = ccom.z - dcom.z;
+    CPoint a,b;
 
-//    if( fenable_pbc ) then
-//        call pmf_pbc_image_vector3(rijx,rijy,rijz)
-//        call pmf_pbc_image_vector3(rkjx,rkjy,rkjz)
-//        call pmf_pbc_image_vector3(rklx,rkly,rklz)
-//    end if
+    a.x = f.y*g.z - f.z*g.y;
+    a.y = f.z*g.x - f.x*g.z;
+    a.z = f.x*g.y - f.y*g.x;
 
-//    ! coordinate definition
-//    !
-//    ! d = rij x rkj
-//    ! g = rkj x rkl
-//    !
-//    ! s1 = (rkjy*rklz - rkjz*rkly)*rijx + (rkjz*rklx - rkjx*rklz)*rijy + (rkjx*rkly - rkjy*rklx)*rijz
-//    !
-//    ! ksi = sign(s1)arccos(d.g/(|d|.|g|))
-//    !
+    b.x = h.y*g.z - h.z*g.y;
+    b.y = h.z*g.x - h.x*g.z;
+    b.z = h.x*g.y - h.y*g.x;
 
-//    ! d = rij x rkj
-    double dx = rijy*rkjz - rijz*rkjy;
-    double dy = rijz*rkjx - rijx*rkjz;
-    double dz = rijx*rkjy - rijy*rkjx;
+    double fg = f.x*g.x + f.y*g.y + f.z*g.z;
+    double hg = h.x*g.x + h.y*g.y + h.z*g.z;
+    double a2 = a.x*a.x + a.y*a.y + a.z*a.z;
+    double b2 = b.x*b.x + b.y*b.y + b.z*b.z;
+    double gv = sqrt( g.x*g.x + g.y*g.y + g.z*g.z );
 
-    double d2 = dx*dx + dy*dy + dz*dz;
-    if( d2 == 0 ) return(0.0);
+        //! calculate scp and value
+    double scp = (a.x*b.x+a.y*b.y+a.z*b.z)/sqrt(a2*b2);
 
-//    ! g = rkj x rkl
-    double gx = rkjy*rklz - rkjz*rkly;
-    double gy = rkjz*rklx - rkjx*rklz;
-    double gz = rkjx*rkly - rkjy*rklx;
+    double value = 0.0;
+    if ( scp > 1.0 ) {
+        scp =  1.0;
+        value = acos (1.0); // ! const
+    } else if ( scp < -1.0 ) {
+        scp = -1.0;
+        value = acos (-1.0); // ! const
+    } else {
+        value = acos ( scp );
+    }
+    if( g.x*(a.y*b.z-a.z*b.y) +
+        g.y*(a.z*b.x-a.x*b.z) +
+        g.z*(a.x*b.y-a.y*b.x) > 0.0) {
+        value = -value;
+    }
 
-    double g2 = gx*gx + gy*gy + gz*gz;
-    if( g2 == 0 ) return(0.0);
-
-//    ! value of coordinate
-
-    double s1 = (rkjy*rklz - rkjz*rkly)*rijx + (rkjz*rklx - rkjx*rklz)*rijy + (rkjx*rkly - rkjy*rklx)*rijz;
-
-    double value = sgn<double>(s1)*acos( (dx*gx + dy*gy + dz*gz)/sqrt(d2*g2) );
-
-//    ! and it's first derivatives --------------------------
-
-    double rkj2 = rkjx*rkjx + rkjy*rkjy + rkjz*rkjz;
-    if( rkj2 == 0 ) return(0.0);
-
-    double rkj = sqrt(rkj2);
-
-    double rkj_d2 = rkj / d2;
-    double mrkj_g2 = -rkj / g2;
-
-    double a_xix = rkj_d2 * dx;
-    double a_xiy = rkj_d2 * dy;
-    double a_xiz = rkj_d2 * dz;
-
-    double a_xlx = mrkj_g2 * gx;
-    double a_xly = mrkj_g2 * gy;
-    double a_xlz = mrkj_g2 * gz;
-
-    double rijorkj = rijx * rkjx + rijy * rkjy + rijz * rkjz;
-    double rkjorkl = rkjx * rklx + rkjy * rkly + rkjz * rklz;
-
-    double WjA = rijorkj / rkj2 - 1;
-    double WjB = rkjorkl / rkj2;
-
-    double WkA = rkjorkl / rkj2 - 1;
-    double WkB = rijorkj / rkj2;
-
-    double a_xjx = WjA * a_xix - WjB * a_xlx;
-    double a_xjy = WjA * a_xiy - WjB * a_xly;
-    double a_xjz = WjA * a_xiz - WjB * a_xlz;
-
-    double a_xkx = WkA * a_xlx - WkB * a_xix;
-    double a_xky = WkA * a_xly - WkB * a_xiy;
-    double a_xkz = WkA * a_xlz - WkB * a_xiz;
+    // geo%grd(:,i) = geo%grd(:,i) + dv*( -gv/a2*a(:) )
+    // geo%grd(:,j) = geo%grd(:,j) + dv*(  (gv/a2 + fg/(a2*gv))*a(:) - hg/(b2*gv)*b(:) )
+    // geo%grd(:,k) = geo%grd(:,k) + dv*(  (hg/(b2*gv) - gv/b2)*b(:) - fg/(a2*gv)*a(:) )
+    // geo%grd(:,l) = geo%grd(:,l) + dv*( gv/b2*b(:) )
 
     // allocate space
     int numofatms = PointA->GetNumberOfAtoms() + PointB->GetNumberOfAtoms()
@@ -339,9 +296,9 @@ double CTorsionProperty::GetGradient(QVector<CAtomGrad>& grads)
         double    tmp = p_atom->GetMass() / atotmass;
         CAtomGrad grd;
         grd.Atom = p_atom;
-        grd.Grad.x = a_xix * tmp;
-        grd.Grad.y = a_xiy * tmp;
-        grd.Grad.z = a_xiz * tmp;
+        grd.Grad.x = tmp * (-gv/a2*a.x);
+        grd.Grad.y = tmp * (-gv/a2*a.y);
+        grd.Grad.z = tmp * (-gv/a2*a.z);
         grads[index++] = grd;
     }
 
@@ -349,9 +306,9 @@ double CTorsionProperty::GetGradient(QVector<CAtomGrad>& grads)
         double    tmp = p_atom->GetMass() / btotmass;
         CAtomGrad grd;
         grd.Atom = p_atom;
-        grd.Grad.x = a_xjx * tmp;
-        grd.Grad.y = a_xjy * tmp;
-        grd.Grad.z = a_xjz * tmp;
+        grd.Grad.x = tmp * ( (gv/a2 + fg/(a2*gv))*a.x - hg/(b2*gv)*b.x );
+        grd.Grad.y = tmp * ( (gv/a2 + fg/(a2*gv))*a.y - hg/(b2*gv)*b.y );
+        grd.Grad.z = tmp * ( (gv/a2 + fg/(a2*gv))*a.z - hg/(b2*gv)*b.z );
         grads[index++] = grd;
     }
 
@@ -359,9 +316,9 @@ double CTorsionProperty::GetGradient(QVector<CAtomGrad>& grads)
         double    tmp = p_atom->GetMass() / ctotmass;
         CAtomGrad grd;
         grd.Atom = p_atom;
-        grd.Grad.x = a_xkx * tmp;
-        grd.Grad.y = a_xky * tmp;
-        grd.Grad.z = a_xkz * tmp;
+        grd.Grad.x = tmp * ( (hg/(b2*gv) - gv/b2)*b.x - fg/(a2*gv)*a.x );
+        grd.Grad.y = tmp * ( (hg/(b2*gv) - gv/b2)*b.y - fg/(a2*gv)*a.y );
+        grd.Grad.z = tmp * ( (hg/(b2*gv) - gv/b2)*b.z - fg/(a2*gv)*a.z );
         grads[index++] = grd;
     }
 
@@ -369,13 +326,20 @@ double CTorsionProperty::GetGradient(QVector<CAtomGrad>& grads)
         double    tmp = p_atom->GetMass() / dtotmass;
         CAtomGrad grd;
         grd.Atom = p_atom;
-        grd.Grad.x = a_xlx * tmp;
-        grd.Grad.y = a_xly * tmp;
-        grd.Grad.z = a_xlz * tmp;
+        grd.Grad.x = tmp * ( gv/b2*b.x );
+        grd.Grad.y = tmp * ( gv/b2*b.y );
+        grd.Grad.z = tmp * ( gv/b2*b.z );
         grads[index++] = grd;
     }
 
     return(value);
+}
+
+//------------------------------------------------------------------------------
+
+double CTorsionProperty::GetDeviationAndGradient(QVector<CAtomGrad>& grads,double target_value)
+{
+    return( std::remainder(GetGradient(grads) - target_value, 2.0 * M_PI) );
 }
 
 //------------------------------------------------------------------------------

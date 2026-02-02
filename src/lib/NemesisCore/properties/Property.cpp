@@ -211,6 +211,13 @@ double CProperty::GetScalarValue(void)
 
 //------------------------------------------------------------------------------
 
+double CProperty::GetScalarDeviation(double target_value)
+{
+    return(GetScalarValue() - target_value);
+}
+
+//------------------------------------------------------------------------------
+
 void CProperty::SetScalarValue(double value)
 {
     // nothing to be here
@@ -222,6 +229,13 @@ double CProperty::GetGradient(QVector<CAtomGrad>& grads)
 {
     grads.resize(0);    // no gradients by default
     return(0.0);
+}
+
+//------------------------------------------------------------------------------
+
+double CProperty::GetDeviationAndGradient(QVector<CAtomGrad>& grads,double target_value)
+{
+    return(GetGradient(grads) - target_value);
 }
 
 //==============================================================================

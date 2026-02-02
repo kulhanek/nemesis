@@ -224,7 +224,7 @@ void CRestraintDesigner::GeometryChanged(void)
     if( p_prop != NULL ){
 
         if( p_prop->IsReady() ){
-            double deviation = p_prop->GetScalarValue() - WidgetUI.targetSB->getInternalValue();
+            double deviation = p_prop->GetScalarDeviation(WidgetUI.targetSB->getInternalValue());
             double energy = 0.5*WidgetUI.forceSB->getInternalValue()*deviation*deviation;
             WidgetUI.currentValueLE->setInternalValue(p_prop->GetScalarValue());
             WidgetUI.deviationLE->setInternalValue(deviation);
