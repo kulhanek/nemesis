@@ -20,5 +20,7 @@ Nemesis15.x.*
 NemesisWin.*
 /test/*
 src/lib/NemesisCore/NemesisCoreMainHeaderConfig.hpp
+Nemesis25.x.creator.user
 Nemesis24.x.creator.user
 /tests/
+.qtc_clangd/

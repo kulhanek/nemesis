@@ -1,2 +1,2 @@
-#define NEMESIS_VERSION        "24.115.486e4f2"
-#define NEMESIS_BUILDTIME      "2024-06-04 17:43"
+#define NEMESIS_VERSION        "25.129.621e45b"
+#define NEMESIS_BUILDTIME      "2026-02-03 10:02"

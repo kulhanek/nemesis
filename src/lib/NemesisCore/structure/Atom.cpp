@@ -456,11 +456,14 @@ bool CAtom::AddValenceWH(void)
         p_natm->SetLocIndex(lidx,p_history);
     }
 
-    if( GetAtoms() != NULL ){
-        int sidx = GetAtoms()->GetTopSerIndex();
-        sidx++;
-        p_natm->SetSerIndex(sidx,p_history);
-    }
+    // set serial index
+    int sidx = GetAtoms()->GetTopSerIndex();
+    sidx++;
+    p_natm->SetSerIndex(sidx,p_history);
+
+    // set name
+    QString nname = QString("%1%2").arg(PeriodicTable.GetSymbol(p_natm->GetZ()),QString::number(p_natm->GetIndex()));
+    p_natm->SetName(nname,p_history);
 
     // and bond
     GetStructure()->GetBonds()->CreateBond(this,p_natm,BO_SINGLE,p_history);
