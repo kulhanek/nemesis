@@ -231,6 +231,49 @@ void InitMol2Types(void)
     Mol2Types["Cl-"] = 17; // Cl-  35.45         1.910               chlorine  (Applequist)
     Mol2Types["Br-"] = 35; // Br-  79.90         2.880               bromine   (Applequist)
     Mol2Types["I-"] = 53; // I-   126.9         4.690               iodine    (Applequist)
+
+    // GLYCAM_06_H PARAMETERS (FOR AMBER 11.0, RESP 0.010), COPYRIGHT CCRC 2011
+    // carbon types
+    Mol2Types["Cg"] = 6;   // Cg  12.01                !            sp3 C aliphatic
+    Mol2Types["CT"] = 6;   // CT 12.01                             sp3 C aliphatic
+    Mol2Types["2C"] = 6;   // 2C 12.01                             sp3 aliphatic C with two (duo) heavy atoms copied from ff12SB
+    Mol2Types["3C"] = 6;   // 3C 12.01                             sp3 aliphatic C with three (tres) heavy atoms copied from ff12SB
+    Mol2Types["CX"] = 6;   // CX 12.01                             protein C-alpha (new to ff10) copied from parm10
+    Mol2Types["Cy"] = 6;   // Cy 12.01                             sp3 C aliphatic - for sialic acid only!
+    Mol2Types["C"]  = 6;   // C  12.01                             sp2 C carbonyl group
+    Mol2Types["Cp"] = 6;   // Cp 12.01                             sp3 C aliphatic - carbon atom bonded to an oxygen atom bonded to a phosphorus atom
+    Mol2Types["Ck"] = 6;   // Ck 12.01                             sp2 C alkenes
+    Mol2Types["Cj"] = 6;   // Cj 12.01                             sp2 C alkenes for adjacent double bonds
+
+    // hydrogen types
+    Mol2Types["H"]  = 1;   // H  1.008                             H Bonded to nitrogen atoms
+    Mol2Types["H1"] = 1;   // H1 1.008                             H aliph. bond. to C with 1 electrwd. groups
+    Mol2Types["H2"] = 1;   // H2 1.008                             H aliph. bond. to C with 2 electrwd. groups
+    Mol2Types["Hc"] = 1;   // Hc 1.008                             H aliph. bond. to C without electrwd. groups
+    Mol2Types["Ha"] = 1;   // Ha 1.008                             H aliph. bond. to C in alkenes eg Ck
+    Mol2Types["Ho"] = 1;   // Ho 1.008                             H hydroxyl group
+    Mol2Types["HW"] = 1;   // HW 1.008                             H TIP3P water
+    Mol2Types["Hp"] = 1;   // Hp 1.008                             H bonded to C next to positively charged group
+
+    // nitrogen types
+    Mol2Types["Ng"] = 7;   // Ng 14.01                             sp2 N amide group
+    Mol2Types["NT"] = 7;   // NT 14.01                             sp3 N amine group
+    Mol2Types["N3"] = 7;   // N3 14.01                             sp3 N for charged amino groups (Lys, phospholipids, etc)
+
+    // oxygen types
+    Mol2Types["O"]  = 8;   // O  16.00                             O carbonyl group
+    Mol2Types["O2"] = 8;   // O2 16.00                             O carboxyl group
+    Mol2Types["Oh"] = 8;   // Oh 16.00                             O hydroxyl group
+    Mol2Types["Os"] = 8;   // Os 16.00                             O ether
+    Mol2Types["Oy"] = 8;   // Oy 16.00                             O ether - for sialic acid only!
+    Mol2Types["OW"] = 8;   // OW 16.00                             O TIP3P water
+
+    // sulfur types
+    Mol2Types["S"]  = 16;  // S  32.06                             sulphur in sulphates
+    Mol2Types["Sm"] = 16;  // Sm 32.06                             sulfane carbohydrate linkage (-CH2-S-CH2-)
+
+    // phosphorus types
+    Mol2Types["P"]  = 15;  // P  30.97                             phosphate in phosphates
 }
 
 //==============================================================================

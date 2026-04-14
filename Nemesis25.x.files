@@ -1391,6 +1391,11 @@ src/plugins/CATsProject/CATsProjectWindow.ui
 etc/plugins/definitions/CATsProject.plg
 src/plugins/CrystalTools/SuperCellBuilderWorkPanel.ui
 src/lib/NemesisCore/graphics/standard/PlaneObjectDesigner.ui
+src/plugins/interfaces/Amber/OFFExportJob.cpp
+src/plugins/interfaces/Amber/OFFExportJob.hpp
+src/plugins/interfaces/Amber/OFFExportTool.cpp
+src/plugins/interfaces/Amber/OFFExportTool.hpp
+src/plugins/interfaces/Amber/OFFExportTool.ui
 src/plugins/workpanels/ExtraWP/TotalCharge.hpp
 src/plugins/workpanels/ExtraWP/TotalCharge.ui
 src/plugins/workpanels/ExtraWP/TotalChargeWorkPanel.cpp

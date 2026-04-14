@@ -10,6 +10,8 @@ SET(AMBER_PLUGIN_SRC
         AmberImportTool.cpp
         Rst7ExportJob.cpp
         Rst7ExportTool.cpp
+        OFFExportJob.cpp
+        OFFExportTool.cpp
         TopologyImportJob.cpp
         TopologyImportTool.cpp
         ChargesImportJob.cpp
@@ -28,6 +30,7 @@ SET(AMBER_PLUGIN_SRC
 SET(AMBER_PLUGIN_UIS
         AmberImportTool.ui
         Rst7ExportTool.ui
+        OFFExportTool.ui
         GESPImportTool.ui
         GESPGridObjectDesigner.ui
         GESPGridSetupDesigner.ui
